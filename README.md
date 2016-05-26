@@ -16,25 +16,25 @@
 
 ## Motion sensor SEN0171
 
-	* Output format: Digital
-	* ROS 
-		* topic: /MotionDetection
-		* msg type: Boolean (Lib: std_msgs/Bool)
+* Output format: Digital
+* ROS 
+	* topic: /MotionDetection
+	* msg type: Boolean (Lib: std_msgs/Bool)
 	
 **Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**  
 
-	* Specifications
-	  * input type: pyroelectic infrared.
-	    detecting infrared signals from moving person or animals.
-	  * output: switching signals
-	    High 3V
-	    Low 0V
-	  * power input: 3.3~5 V (It should not be bigger than 6V)
-	  * applications: body movements
-	  * working current: 15uA
-	  * detection distance: 7 m
-	* reference 
-    * [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)
+* Specifications
+  * input type: pyroelectic infrared.
+    detecting infrared signals from moving person or animals.
+  * output: switching signals
+    High 3V
+    Low 0V
+  * power input: 3.3~5 V (It should not be bigger than 6V)
+  * applications: body movements
+  * working current: 15uA
+  * detection distance: 7 m
+* reference 
+  * [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)
 
 -------------------------------------------------------------------------------------------------
 
