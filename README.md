@@ -1,12 +1,11 @@
 # Andbot_SecuritySensing
-
 * sensors:
-	Smoke sensor -- MTARDSMOKE (MQ2) * 1
+	* Smoke sensor -- MTARDSMOKE (MQ2) * 1
                             -- MQ9 * 1
-	Temperature & humidity sensor -- DHT -22 * 1
-	Motion sensor PIR * 1
-	Flame sensor * 1
-	Dust sensor * 1 
+	* Temperature & humidity sensor -- DHT -22 * 1
+	* Motion sensor PIR * 1
+	* Flame sensor * 1
+	* Dust sensor * 1 
 
 * controller:
 	MEGA 2560 board * 1
@@ -15,13 +14,12 @@
 ===============================================================
 
 ## Motion sensor SEN0171
-
 * Output format: Digital
 * ROS 
 	* topic: /MotionDetection
 	* msg type: Boolean (Lib: std_msgs/Bool)
 	
-**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**  
+	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**  
 
 * Specifications
   * input type: pyroelectic infrared.
@@ -39,19 +37,24 @@
 -------------------------------------------------------------------------------------------------
 
 ## Temperature sensor AM2302 DHT22
-
 * Output format: Digital
-	* ROS 
-		* topic: /CurTemperature
-		* topic: /CurHumidity
-		* msg type: double (Lib: sensor_msgs/Temperature & sensor_msgs/RelativeHumidity)
+* ROS 
+	* topic: /CurTemperature
+	* topic: /CurHumidity
+	* msg type: double (Lib: sensor_msgs/Temperature & sensor_msgs/RelativeHumidity)
 		
 * Specifications
 	* output: alibrated digital signal
 	* power: 3.3~5.5V
-	* Sensing range: humidity 0-100%RH; temperature -40~80Celsius
-	* resolution: humidity 0.1%RH;temperature 0.1Celsius
-	* accuracy: humidity+-2%RH (Max+-5%RH);temperature+-0.5Celsius
+	* Sensing range: 
+		* humidity: 0-100% RH
+		* temperature: -40 ~ 80 Celsius
+	* resolution: 
+		* humidity: 0.1% RH;
+		* temperature: 0.1 Celsius
+	* accuracy: 
+		* humidity: +-2% RH (Max+-5%RH)
+		* temperature: +-0.5 Celsius
 
 * reference
 	* [Datasheet](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)
@@ -60,53 +63,108 @@
 -------------------------------------------------------------------------------------------------
 
 ## Flame sensor
+* Output format: Analog (intensity)
+* ROS 
+	* topic: /FlameDection -- to be determined !
+	* msg type: float (Lib: std_msgs::Float32)
+	
+	**The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
+	
+* Specifications
+	* Supply Voltage: 3.3V to 5V
+	* Detection range: 20cm (4.8V) ~ 100cm (1V) -- interesting parameter.
+	* Rang of Spectral Bandwidth : 760nm to 1100nm
+	* Responsive time : 15us
+	* Interface: Analog
 
-* Supply Voltage: 3.3V to 5V
-* Interface: Analog
 * reference 
-	* http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV
-	* http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076
+	* [dfrobot/product](http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV)
+	* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076)
+	* [schemetics](http://www.dfrobot.com/image/data/DFR0076/V2.0/Flame%20Sensor%20SCH.pdf)
+	* [datasheet](https://github.com/Arduinolibrary/Source/blob/master/YG1006ataSheet.pdf?raw=true)
 
 --------------------------------------------------------------------------------------------------
 
 ## Smoke MQ2
+* Output format: Analog (intensity)
+* ROS 
+	* topic: /SmokeDetectionMQ2 -- to be determined !
+	* To be determined: which type of gas should we reference? CO? LPG?
+	* Recommendation from the datasheet -- please refer to reference 2 shown below. *
+	* msg type: float (Lib: std_msgs::Float32)
 
-** Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.
-
-When accurately measuring, the proper alarm point for the gas detector should be determined after
-considering the temperature and humidity influence. **
+	** Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.
+	When accurately measuring, the proper alarm point for the gas detector should be determined after
+	considering the temperature and humidity influence. **
+	
+	**There is a adjustable resistor that can be tune for suitable sensitivity.**
+	
+	*This sensor is pretty sensitive to temperature and humidity.*
+	
+* Specifications
+	* Supply Voltage: 5V
+	* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
 
 * reference
-	* http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127
-	* https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf
-	* http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html
-	* http://www.powenko.com/wordpress/?p=5688
-	* https://www.pololu.com/file/0J309/MQ2.pdf
+	1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
+	2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
+	3. [datasheet](https://www.pololu.com/file/0J309/MQ2.pdf)
+	4. [example](http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html)
+	5. [example](http://www.powenko.com/wordpress/?p=5688)
 
 --------------------------------------------------------------------------------------------------
 
 ## Smoke MQ9
+* Output format: Analog (intensity) & Digital (Alarm point?)
+* To be determined: which type of gas should we reference? CO? LPG?
+* Recommendation from the datasheet -- please refer to reference 1 shown below. *
+* There is a adjustable resistor that can be tune for suitable sensitivity. * 
+* ROS 
+	* topic: /SmokeDetectionMQ9_A -- to be determined !
+	* topic: /SmokeDetectionMQ9_D -- to be determined !
+	* msg type: float (Lib: std_msgs::Float32) & Boolean (Lib: std_msgs::Bool)
+	
+	**This sensor is pretty sensitive to temperature and humidity.**
 
-* refernce 
-	* http://domoticx.com/arduino-modules-mq-9-gas-sensor-methaan-lpg-koolstofmonoxide/
-	* http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134
-	* http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf
+* Specifications
+	* Supply Voltage: 5V
+	* Concentration:
+		* 10-1000ppm CO
+		* 100-10000ppm combustible gas
+		* Good sensitivity to CO/Combustible gas
+		* High sensitivity to Methane, Propane and CO
+
+* reference 
+	1. [datasheet](https://solarbotics.com/download.php?file=2274)
+	2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
+	3. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134)
+	4. [example](http://www.powenko.com/wordpress/?p=5688)
 
 ---------------------------------------------------------------------------------------------------
 
-## Sharp dust sensor
-
-* Supply voltage: 5-7V
+## Sharp optical dust sensor
+* Output format: analog 
+	* physical meaning: signal can be transfered to Dust Density (needed)
+* ROS 
+	* topic: /DustDetection
+	* msg type: float (Lib: std_msgs::Float32)
+	
+	**Be aware of the wire color and pinout when setting up.**
+* Specification
+	* Supply voltage: 5-7V
+	* Operating temperature: -10-65 Celsius 
+	* output range: please refer to reference 1 fig.3. It shows voltage against Dust density.
 
 * reference
-	* http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html
-	* http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV
-	* http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU
-	* http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf
+	1. [datasheet](http://www.dfrobot.com/image/data/SEN0144/gp2y1010au_e.pdf)
+	2. [datasheet](http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf)
+	3. [example](http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html)
+	4. [dfrobot/](http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV)
+	5. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU)
 
 ======================================================================
 
-edited by shang wei (weber)
+edited by shang wei (Weber)
 
 
 
