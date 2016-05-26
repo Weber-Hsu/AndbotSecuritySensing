@@ -1,5 +1,5 @@
 # Andbot_SecuritySensing
-* sensors:
+* sensors
 	* Smoke sensor -- MTARDSMOKE (MQ2) * 1
                             -- MQ9 * 1
 	* Temperature & humidity sensor -- DHT -22 * 1
@@ -116,9 +116,9 @@
 
 ## Smoke MQ9
 * Output format: Analog (intensity) & Digital (Alarm point?)
-* To be determined: which type of gas should we reference? CO? LPG?
-* Recommendation from the datasheet -- please refer to reference 1 shown below. *
-* There is a adjustable resistor that can be tune for suitable sensitivity. * 
+	* To be determined: which type of gas should we reference? CO? LPG?
+	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
+	* There is a adjustable resistor that can be tune for suitable sensitivity. * 
 * ROS 
 	* topic: /SmokeDetectionMQ9_A -- to be determined !
 	* topic: /SmokeDetectionMQ9_D -- to be determined !
