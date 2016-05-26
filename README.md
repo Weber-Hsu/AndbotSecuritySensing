@@ -1,7 +1,7 @@
 # Andbot_SecuritySensing
 * sensors
 	* Smoke sensor -- MTARDSMOKE (MQ2) * 1
-                            -- MQ9 * 1
+	* Smoke sensor --             MQ9 * 1
 	* Temperature & humidity sensor -- DHT -22 * 1
 	* Motion sensor PIR * 1
 	* Flame sensor * 1
@@ -19,7 +19,7 @@
 	* topic: /MotionDetection
 	* msg type: Boolean (Lib: std_msgs/Bool)
 	
-	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**  
+	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
 
 * Specifications
   * input type: pyroelectic infrared.
