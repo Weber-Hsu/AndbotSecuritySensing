@@ -10,54 +10,52 @@
 
 * controller:
 	MEGA 2560 board * 1
-	https://www.arduino.cc/en/Main/arduinoBoardMega2560
+	[arduino/Mega2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 
 ===============================================================
 
 ## Motion sensor SEN0171
 
-  * reference 
-    * [Github](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)
+	* Output format: Digital
+	* ROS 
+		* topic: /MotionDetection
+		* msg type: Boolean (Lib: std_msgs/Bool)
+	
+**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**  
 
-  * input type: pyroelectic infrared.
-    detecting infrared signals from moving person or animals.
-
-  * output: switching signals
-    High 3V
-    Low 0V
-
-  * power input: 3.3~5 V (It should not be bigger than 6V)
-  * applications: body movements
-
-  * working current: 15uA
-
-  * detection distance: 7 m
-
-(conventional type: detector should equip a detector to be detected.)
-
-**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds. So we can quickly establish a body motion detection application according to this feature.**
+	* Specifications
+	  * input type: pyroelectic infrared.
+	    detecting infrared signals from moving person or animals.
+	  * output: switching signals
+	    High 3V
+	    Low 0V
+	  * power input: 3.3~5 V (It should not be bigger than 6V)
+	  * applications: body movements
+	  * working current: 15uA
+	  * detection distance: 7 m
+	* reference 
+    * [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)
 
 -------------------------------------------------------------------------------------------------
 
 ## Temperature sensor AM2302 DHT22
 
-* output: alibrated digital signal
-
-* power: 3.3~5.5V
-
-* Sensing range:
-	humidity 0-100%RH; temperature -40~80Celsius
-
-* resolution:
-	humidity 0.1%RH;temperature 0.1Celsius
-
-* accuracy:
-	humidity+-2%RH (Max+-5%RH);temperature+-0.5Celsius
+* Output format: Digital
+	* ROS 
+		* topic: /CurTemperature
+		* topic: /CurHumidity
+		* msg type: double (Lib: sensor_msgs/Temperature & sensor_msgs/RelativeHumidity)
+		
+* Specifications
+	* output: alibrated digital signal
+	* power: 3.3~5.5V
+	* Sensing range: humidity 0-100%RH; temperature -40~80Celsius
+	* resolution: humidity 0.1%RH;temperature 0.1Celsius
+	* accuracy: humidity+-2%RH (Max+-5%RH);temperature+-0.5Celsius
 
 * reference
-	* https://www.google.com.tw/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwj79YyBmOPMAhUGmpQKHU-_DlYQFggbMAA&url=https%3A%2F%2Fwww.adafruit.com%2Fdatasheets%2FDigital%2520humidity%2520and%2520temperature%2520sensor%2520AM2302.pdf&usg=AFQjCNF5T-gsIkq5_unvRMxOQs4Etrj-ZA&sig2=wkzh_ro2C4NB1yxg6Ma1rg
-
-	* http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More
+	* [Datasheet](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)
+	* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More)
 
 -------------------------------------------------------------------------------------------------
 
