@@ -33,6 +33,7 @@ std_msgs::Float32 MQ2_msgs; // MQ2 (smoke sensor) analog input
 std_msgs::Float32 MQ9_msgs_AI; // MQ9 (smoke sensor) analog input
 //std_msgs::Bool MQ9_msgs_DI; // MQ9 (smoke sensor) digital input
 std_msgs::Float32 Dust_msgs; // Sharp Optical Dust sensor analog input
+std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog input
 std_msgs::String SensorStatus_msgs; // Report back each sensors status
 
 /*  define  ROS node and topics */
@@ -45,13 +46,16 @@ ros::Publisher pub_MQ2Smoke("/ConcentrationMQ2", & MQ2_msgs);
 ros::Publisher pub_MQ9Smoke_AI("/ConcentrationMQ9", & MQ9_msgs_AI);
 //ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
+ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
+
 
 /* temporary varibles for Dust sensing*/
 float voMeasured = 0;
 float calcVoltage = 0;
-int samplingTime = 280;
+/* sampling timing of output pulse in Dust sensor (from Datasheet)*/
+int samplingTime = 280; // LED Pulse Width = samplingTime + deltaTime = 320us
 int deltaTime = 40;
-int sleepTime = 9680;
+int sleepTime = 9680; // period (per pulse) = 10ms, i.e, sleepingTime = 10ms - 320us = 9680 us
 
 int warmup = 2000 ; //(msec)
 bool SensorReadyFlag = false;
@@ -72,6 +76,8 @@ void setup() {
   Security.advertise(pub_MQ9Smoke_AI);
   //Security.advertise(pub_MQ9Smoke_DI);
   Security.advertise(pub_Dust);
+  Security.advertise(pub_Dust_V);
+  
 
   Serial.begin(115200);
 }
@@ -168,16 +174,17 @@ void loop() {
     delayMicroseconds(samplingTime);
 
     voMeasured = analogRead(Dust_PIN_AI);
-    Serial.println(voMeasured);
+    //Serial.println(voMeasured);
     delayMicroseconds(deltaTime);
     digitalWrite(Dust_PIN_DO,HIGH); // turn the LED off
     delayMicroseconds(sleepTime);
     
     calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
+    Dust_msgs_VoMeasured.data = calcVoltage;
+    pub_Dust_V.publish(&Dust_msgs_VoMeasured);
     
-    //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/
-    // Chris Nafis (c) 2012
-    Dust_msgs.data = 0.17 * calcVoltage - 0.1; 
+    //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
+    Dust_msgs.data = 0.2 * calcVoltage - 0.9/5; // this equation is appoximately calculated by using typical value shown in the datasheet 
     Serial.println(calcVoltage);
     pub_Dust.publish(&Dust_msgs);
 
