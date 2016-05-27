@@ -65,14 +65,15 @@
 ## Flame sensor
 * Output format: Analog (intensity)
 * ROS 
-	* topic: /FlameDection -- to be determined !
+	* topic: /FlameDection
 	* msg type: float (Lib: std_msgs::Float32)
+	* value: 0 ~ 1023
 	
 	**The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
 	
 * Specifications
 	* Supply Voltage: 3.3V to 5V
-	* Detection range: 20cm (4.8V) ~ 100cm (1V) -- interesting parameter.
+	* Detection range: 20cm (4.8V) ~ 100cm (1V)
 	* Rang of Spectral Bandwidth : 760nm to 1100nm
 	* Responsive time : 15us
 	* Interface: Analog
@@ -88,9 +89,9 @@
 ## MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
-	* topic: /SmokeDetectionMQ2 -- to be determined !
+	* topic: /ConcentrationMQ2 -- temporary define.
 	* To be determined: which type of gas should we reference? CO? LPG?
-	* Recommendation from the datasheet -- please refer to reference 2 shown below. *
+	* Recommendation from the datasheet -- please refer to reference 2 shown below. 
 	* msg type: float (Lib: std_msgs::Float32)
 
 	** Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.
@@ -120,10 +121,10 @@
 	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
 	* There is a adjustable resistor that can be tune for suitable sensitivity. * 
 * ROS 
-	* topic: /SmokeDetectionMQ9_A -- to be determined !
-	* topic: /SmokeDetectionMQ9_D -- to be determined !
-	* msg type: float (Lib: std_msgs::Float32) & Boolean (Lib: std_msgs::Bool)
+	* topic: /ConcentrationMQ9 -- temporary define.
+	* msg type: float (Lib: std_msgs::Float32) 
 	
+* We desided not to use onboard digital output due to its unknown programmed threshold for alarm. *
 	**This sensor is pretty sensitive to temperature and humidity.**
 
 * Specifications

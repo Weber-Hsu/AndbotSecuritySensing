@@ -16,7 +16,7 @@
 #define Flame_PIN    A0    // Flame sensor V2 analog input
 #define MQ2_PIN      A1    // MQ2 (smoke sensor) analog input
 #define MQ9_PIN_AI   A2    // MQ9 (smoke sensor) analog input
-#define MQ9_PIN_DI   24    // MQ9 (smoke sensor) diginal input
+//#define MQ9_PIN_DI   24    // MQ9 (smoke sensor) diginal input
 #define Dust_PIN_AI  A3    // Sharp Optical Dust sensor analog input
 #define Dust_PIN_DO  25    // Sharp Optical Dust sensor diginal
 
@@ -31,7 +31,7 @@ std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
 std_msgs::Float32 MQ2_msgs; // MQ2 (smoke sensor) analog input
 std_msgs::Float32 MQ9_msgs_AI; // MQ9 (smoke sensor) analog input
-std_msgs::Bool MQ9_msgs_DI; // MQ9 (smoke sensor) digital input
+//std_msgs::Bool MQ9_msgs_DI; // MQ9 (smoke sensor) digital input
 std_msgs::Float32 Dust_msgs; // Sharp Optical Dust sensor analog input
 std_msgs::String SensorStatus_msgs; // Report back each sensors status
 
@@ -40,10 +40,10 @@ ros::NodeHandle Security;
 ros::Publisher pub_DHT22Temp("/CurTemperature",&DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity",&DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection",&PIR_msgs);
-ros::Publisher pub_Flame("/FlameDetectionDistance", &Flame_msgs);
-ros::Publisher pub_MQ2Smoke("/SmokeDetectionMQ2", & MQ2_msgs);
-ros::Publisher pub_MQ9Smoke_AI("/SmokeDetectionMQ9_A", & MQ9_msgs_AI);
-ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
+ros::Publisher pub_Flame("/FlameDetection", &Flame_msgs);
+ros::Publisher pub_MQ2Smoke("/ConcentrationMQ2", & MQ2_msgs);
+ros::Publisher pub_MQ9Smoke_AI("/ConcentrationMQ9", & MQ9_msgs_AI);
+//ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 
 /* temporary varibles for Dust sensing*/
@@ -59,7 +59,7 @@ bool SensorReadyFlag = false;
 void setup() {
   //initialize mega 2560 for sensor input
   pinMode(PIR_PIN, INPUT); //setup pin
-  pinMode(MQ9_PIN_DI, INPUT);
+  //pinMode(MQ9_PIN_DI, INPUT);
   pinMode(Dust_PIN_DO, OUTPUT);
 
   /* ROS Node configurations */
@@ -70,7 +70,7 @@ void setup() {
   Security.advertise(pub_Flame);
   Security.advertise(pub_MQ2Smoke);
   Security.advertise(pub_MQ9Smoke_AI);
-  Security.advertise(pub_MQ9Smoke_DI);
+  //Security.advertise(pub_MQ9Smoke_DI);
   Security.advertise(pub_Dust);
 
   Serial.begin(115200);
@@ -106,8 +106,6 @@ void loop() {
     {
       DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
       DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
-      //Serial.println(andbotDHT22.getTemperatureC());
-      //Serial.println(andbotDHT22.getHumidity());
       pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
       pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
     }
@@ -151,8 +149,6 @@ void loop() {
     
     /* flame detection */
     Flame_msgs.data = analogRead(Flame_PIN);
-    //Flame_msgs.data = - Flame_msgs.data / 1024 * 80 + 100;
-    Flame_msgs.data = Flame_msgs.data / 1024 * 5;
     pub_Flame.publish(&Flame_msgs);
     
     /*Smoke detection MQ2 */
@@ -162,10 +158,10 @@ void loop() {
     
     /* Smoke detection MQ9 */
     MQ9_msgs_AI.data = analogRead(MQ9_PIN_AI);
-    MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
+    //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
     MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 1000 + 500; // follow the recommendation regarding LPS on datasheet
     pub_MQ9Smoke_AI.publish(&MQ9_msgs_AI);
-    pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);    
+    //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);    
     
     /* Dust detection */ 
     digitalWrite(Dust_PIN_DO,LOW); // power on the LED
