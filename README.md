@@ -112,6 +112,7 @@
 	3. [datasheet](https://www.pololu.com/file/0J309/MQ2.pdf)
 	4. [example](http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html)
 	5. [example](http://www.powenko.com/wordpress/?p=5688)
+	6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
 
 --------------------------------------------------------------------------------------------------
 
@@ -140,6 +141,7 @@
 	2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
 	3. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134)
 	4. [example](http://www.powenko.com/wordpress/?p=5688)
+	5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
 
 ---------------------------------------------------------------------------------------------------
 
