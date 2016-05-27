@@ -1,19 +1,19 @@
-# Andbot_SecuritySensing
+# AndbotSecuritySensing
 * sensors
-	* Smoke sensor -- MTARDSMOKE (MQ2) * 1
-	* Smoke sensor --             MQ9 * 1
-	* Temperature & humidity sensor -- DHT -22 * 1
+	* MQ2 gas sensor * 1
+	* MQ9 CO/Combustible Gas sensor * 1
+	* DHT22 Temperature-Humidity sensor * 1
 	* Motion sensor PIR * 1
 	* Flame sensor * 1
 	* Dust sensor * 1 
 
 * controller:
-	MEGA 2560 board * 1
+	* MEGA 2560 board * 1
 	[arduino/Mega2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 
 ===============================================================
 
-## Motion sensor SEN0171
+## Motion sensor PIR
 * Output format: Digital
 * ROS 
 	* topic: /MotionDetection
@@ -36,7 +36,7 @@
 
 -------------------------------------------------------------------------------------------------
 
-## Temperature sensor AM2302 DHT22
+## DHT22 Temperature-Humidity sensor
 * Output format: Digital
 * ROS 
 	* topic: /CurTemperature
@@ -85,7 +85,7 @@
 
 --------------------------------------------------------------------------------------------------
 
-## Smoke MQ2
+## MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
 	* topic: /SmokeDetectionMQ2 -- to be determined !
@@ -114,7 +114,7 @@
 
 --------------------------------------------------------------------------------------------------
 
-## Smoke MQ9
+## MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) & Digital (Alarm point?)
 	* To be determined: which type of gas should we reference? CO? LPG?
 	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
@@ -142,7 +142,7 @@
 
 ---------------------------------------------------------------------------------------------------
 
-## Sharp optical dust sensor
+## Dust sensor
 * Output format: analog 
 	* physical meaning: signal can be transfered to Dust Density (needed)
 * ROS 
