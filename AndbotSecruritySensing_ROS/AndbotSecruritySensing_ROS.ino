@@ -73,7 +73,7 @@ void setup() {
   Security.advertise(pub_MQ9Smoke_DI);
   Security.advertise(pub_Dust);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
@@ -151,18 +151,19 @@ void loop() {
     
     /* flame detection */
     Flame_msgs.data = analogRead(Flame_PIN);
-    Flame_msgs.data = - Flame_msgs.data / 1024 * 80 + 100;
+    //Flame_msgs.data = - Flame_msgs.data / 1024 * 80 + 100;
+    Flame_msgs.data = Flame_msgs.data / 1024 * 5;
     pub_Flame.publish(&Flame_msgs);
     
     /*Smoke detection MQ2 */
     MQ2_msgs.data = analogRead(MQ2_PIN);
-    MQ2_msgs.data = MQ2_msgs.data / 1024 * 4800 + 200; // follow the recommendation regarding LPS on datasheet
+    MQ2_msgs.data = MQ2_msgs.data / 1024 * 1000 + 200; // follow the recommendation regarding LPS on datasheet
     pub_MQ2Smoke.publish(&MQ2_msgs);
     
     /* Smoke detection MQ9 */
     MQ9_msgs_AI.data = analogRead(MQ9_PIN_AI);
     MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
-    MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 9500 + 500; // follow the recommendation regarding LPS on datasheet
+    MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 1000 + 500; // follow the recommendation regarding LPS on datasheet
     pub_MQ9Smoke_AI.publish(&MQ9_msgs_AI);
     pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);    
     
