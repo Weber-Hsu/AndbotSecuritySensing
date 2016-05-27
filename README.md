@@ -144,6 +144,7 @@
 	3. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134)
 	4. [example](http://www.powenko.com/wordpress/?p=5688)
 	5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
+	6. [CO safty level](http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316)
 
 ---------------------------------------------------------------------------------------------------
 
