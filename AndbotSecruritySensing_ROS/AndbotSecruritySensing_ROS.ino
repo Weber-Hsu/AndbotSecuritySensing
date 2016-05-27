@@ -174,7 +174,7 @@ void loop() {
     delayMicroseconds(samplingTime);
 
     voMeasured = analogRead(Dust_PIN_AI);
-    //Serial.println(voMeasured);
+    Serial.println(voMeasured);
     delayMicroseconds(deltaTime);
     digitalWrite(Dust_PIN_DO,HIGH); // turn the LED off
     delayMicroseconds(sleepTime);
@@ -184,7 +184,7 @@ void loop() {
     pub_Dust_V.publish(&Dust_msgs_VoMeasured);
     
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
-    Dust_msgs.data = 0.2 * calcVoltage - 0.9/5; // this equation is appoximately calculated by using typical value shown in its datasheet 
+    Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet 
     Serial.println(calcVoltage);
     pub_Dust.publish(&Dust_msgs);
 
