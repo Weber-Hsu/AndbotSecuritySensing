@@ -93,7 +93,7 @@
 	* To be determined: which type of gas should we reference? CO? LPG?
 	* Recommendation from the datasheet -- please refer to reference 2 shown below. 
 	* msg type: float (Lib: std_msgs::Float32)
-	* RL = 10K ohm
+	* Adjustable resistance RL = 10K ohm
 
 	** Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.
 	When accurately measuring, the proper alarm point for the gas detector should be determined after
@@ -121,7 +121,8 @@
 * Output format: Analog (intensity) & Digital (Alarm point?)
 	* To be determined: which type of gas should we reference? CO? LPG?
 	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
-	* There is a adjustable resistor that can be tune for suitable sensitivity. * 
+	* There is a adjustable resistor that can be tune for suitable sensitivity. *
+	* Adjustable resistance RL = 5.4K ohm
 * ROS 
 	* topic: /ConcentrationMQ9 -- temporary naming.
 	* msg type: float (Lib: std_msgs::Float32) 
