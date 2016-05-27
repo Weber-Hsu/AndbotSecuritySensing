@@ -26,7 +26,7 @@ DHT22 andbotDHT22(DHT22_PIN);
 long publisher_timer = 0;
 
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
-sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -temperture digital input
+sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
 std_msgs::Float32 MQ2_msgs; // MQ2 (smoke sensor) analog input
@@ -184,7 +184,7 @@ void loop() {
     pub_Dust_V.publish(&Dust_msgs_VoMeasured);
     
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
-    Dust_msgs.data = 0.2 * calcVoltage - 0.9/5; // this equation is appoximately calculated by using typical value shown in the datasheet 
+    Dust_msgs.data = 0.2 * calcVoltage - 0.9/5; // this equation is appoximately calculated by using typical value shown in its datasheet 
     Serial.println(calcVoltage);
     pub_Dust.publish(&Dust_msgs);
 
