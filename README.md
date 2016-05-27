@@ -89,9 +89,7 @@
 ## MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
-	* Topic: /ConcentrationMQ2 -- temporary naming.
-	* To be determined: which type of gas should we reference? CO? LPG?
-	* Recommendation from the datasheet -- please refer to reference 2 shown below. 
+	* Topic: /MQ2
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Adjustable resistance RL = 10K ohm
 
@@ -119,12 +117,9 @@
 
 ## MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) & Digital (Alarm point?)
-	* To be determined: which type of gas should we reference? CO? LPG?
-	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
-	* There is a adjustable resistor that can be tune for suitable sensitivity. *
 	* Adjustable resistance RL = 5.4K ohm
 * ROS 
-	* Topic: /ConcentrationMQ9 -- temporary naming.
+	* Topic: /MQ9
 	* Msg type: float (Lib: std_msgs::Float32) 
 	
 *We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
@@ -148,7 +143,7 @@
 
 ---------------------------------------------------------------------------------------------------
 
-## Dust sensor
+## Dust sensor -- pending. Need further discussion.
 * Output format: analog 
 	* Physical meaning: signal can be transfered to Dust Density
 * ROS 
