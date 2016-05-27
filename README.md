@@ -89,7 +89,7 @@
 ## MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
-	* topic: /ConcentrationMQ2 -- temporary define.
+	* topic: /ConcentrationMQ2 -- temporary naming.
 	* To be determined: which type of gas should we reference? CO? LPG?
 	* Recommendation from the datasheet -- please refer to reference 2 shown below. 
 	* msg type: float (Lib: std_msgs::Float32)
@@ -121,7 +121,7 @@
 	* Recommendation from the datasheet -- please refer to reference 1 shown below. *
 	* There is a adjustable resistor that can be tune for suitable sensitivity. * 
 * ROS 
-	* topic: /ConcentrationMQ9 -- temporary define.
+	* topic: /ConcentrationMQ9 -- temporary naming.
 	* msg type: float (Lib: std_msgs::Float32) 
 	
 *We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
