@@ -65,7 +65,7 @@
 ## Flame sensor
 * Output format: Analog (intensity)
 * ROS 
-	* topic: /FlameDection
+	* topic: /FlameDetection
 	* msg type: float (Lib: std_msgs::Float32)
 	* value: 0 ~ 1023
 	
@@ -124,8 +124,8 @@
 	* topic: /ConcentrationMQ9 -- temporary define.
 	* msg type: float (Lib: std_msgs::Float32) 
 	
-* We desided not to use onboard digital output due to its unknown programmed threshold for alarm. *
-	**This sensor is pretty sensitive to temperature and humidity.**
+*We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
+**This sensor is pretty sensitive to temperature and humidity.**
 
 * Specifications
 	* Supply Voltage: 5V
