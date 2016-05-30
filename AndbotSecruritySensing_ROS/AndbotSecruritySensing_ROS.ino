@@ -42,8 +42,8 @@ ros::Publisher pub_DHT22Temp("/CurTemperature",&DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity",&DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection",&PIR_msgs);
 ros::Publisher pub_Flame("/FlameDetection", &Flame_msgs);
-ros::Publisher pub_MQ2Smoke("/ConcentrationMQ2", & MQ2_msgs);
-ros::Publisher pub_MQ9Smoke_AI("/ConcentrationMQ9", & MQ9_msgs_AI);
+ros::Publisher pub_MQ2Smoke("/MQ2", & MQ2_msgs);
+ros::Publisher pub_MQ9Smoke_AI("/MQ9", & MQ9_msgs_AI);
 //ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
@@ -86,7 +86,6 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   //warmup sequence
-  //Serial.println(SensorReadyFlag);
   if (SensorReadyFlag == false)
   {
     if (millis() < warmup)
@@ -108,38 +107,40 @@ void loop() {
   if((millis() > publisher_timer) && SensorReadyFlag == true)
   {
     errorCode = andbotDHT22.readData();
-    if (errorCode == DHT_ERROR_NONE)
+    switch (errorCode)
     {
-      DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
-      DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
-      pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-      pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
+      case DHT_ERROR_NONE:
+        DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
+        DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
+        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
+        Serial.println(andbotDHT22.getHumidityInt());
+        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
+        break;
+      case DHT_ERROR_CHECKSUM:
+        Serial.println("sum error");
+        DHT22_Temperature_msgs.temperature = -1;
+        DHT22_Humidity_msgs.relative_humidity = -1;
+        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
+        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
+        break;
+      case DHT_BUS_HUNG:
+        Serial.println("BUS Hung");
+        DHT22_Temperature_msgs.temperature = 0;
+        DHT22_Humidity_msgs.relative_humidity = 0;
+        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
+        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
+        break;
+      case DHT_ERROR_DATA_TIMEOUT:
+        Serial.println("Data timeout");
+        break;
+      case DHT_ERROR_TOOQUICK:
+        Serial.println("Polled to quick ");
+        break;
+      case DHT_ERROR_NOT_PRESENT:
+        Serial.println("Nothing");
+        break;
     }
-    else if (errorCode == DHT_ERROR_CHECKSUM)
-    {
-      Serial.println("sum error");
-    }
-    else if (errorCode == DHT_BUS_HUNG)
-    {
-      Serial.println("BUS Hung");
-      DHT22_Temperature_msgs.temperature = -1;
-      DHT22_Humidity_msgs.relative_humidity = -1;
-      pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-      pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
-    }
-    else if (errorCode == DHT_ERROR_DATA_TIMEOUT)
-    {
-      Serial.println("Data timeout");
-    }
-    else if (errorCode == DHT_ERROR_TOOQUICK)
-    {
-      Serial.println("Polled to quick ");
-    }
-    else
-    {
-      Serial.println("Nothing");
-    }
-    
+
     /* motion detection */
     PIR_msgs.data = digitalRead(PIR_PIN);
     pub_PIRstate.publish(&PIR_msgs); 
@@ -174,7 +175,7 @@ void loop() {
     delayMicroseconds(samplingTime);
 
     voMeasured = analogRead(Dust_PIN_AI);
-    Serial.println(voMeasured);
+    //Serial.println(voMeasured);
     delayMicroseconds(deltaTime);
     digitalWrite(Dust_PIN_DO,HIGH); // turn the LED off
     delayMicroseconds(sleepTime);
@@ -185,7 +186,7 @@ void loop() {
     
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
     Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet 
-    Serial.println(calcVoltage);
+    //Serial.println(calcVoltage);
     pub_Dust.publish(&Dust_msgs);
 
     
