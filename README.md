@@ -93,9 +93,8 @@
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Adjustable resistance RL = 10K ohm
 
-	** Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.
-	When accurately measuring, the proper alarm point for the gas detector should be determined after
-	considering the temperature and humidity influence. **
+	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
+	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
 	
 	**There is a adjustable resistor that can be tune for suitable sensitivity.**
 	
