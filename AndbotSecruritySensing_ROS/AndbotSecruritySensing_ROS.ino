@@ -23,7 +23,8 @@
 /* Setup variables used in this code*/
 DHT22 andbotDHT22(DHT22_PIN);
 
-long publisher_timer = 0;
+long publisher_timer ;
+long publishPeriod= 2000; 
 
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
@@ -38,9 +39,9 @@ std_msgs::String SensorStatus_msgs; // Report back each sensors status
 
 /*  define  ROS node and topics */
 ros::NodeHandle Security;
-ros::Publisher pub_DHT22Temp("/CurTemperature",&DHT22_Temperature_msgs);
-ros::Publisher pub_DHT22Humid("/CurHumidity",&DHT22_Humidity_msgs);
-ros::Publisher pub_PIRstate("/MotionDetection",&PIR_msgs);
+ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
+ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
+ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
 ros::Publisher pub_Flame("/FlameDetection", &Flame_msgs);
 ros::Publisher pub_MQ2Smoke("/MQ2", & MQ2_msgs);
 ros::Publisher pub_MQ9Smoke_AI("/MQ9", & MQ9_msgs_AI);
@@ -77,7 +78,7 @@ void setup() {
   //Security.advertise(pub_MQ9Smoke_DI);
   Security.advertise(pub_Dust);
   Security.advertise(pub_Dust_V);
-  
+
 
   Serial.begin(115200);
 }
@@ -104,7 +105,7 @@ void loop() {
   /* DHT22 reading... */
   DHT22_ERROR_t errorCode;
 
-  if((millis() > publisher_timer) && SensorReadyFlag == true)
+  if ((millis() > publisher_timer) && SensorReadyFlag == true)
   {
     errorCode = andbotDHT22.readData();
     switch (errorCode)
@@ -143,8 +144,8 @@ void loop() {
 
     /* motion detection */
     PIR_msgs.data = digitalRead(PIR_PIN);
-    pub_PIRstate.publish(&PIR_msgs); 
-  
+    pub_PIRstate.publish(&PIR_msgs);
+
     if (PIR_msgs.data == true)
     {
       Serial.println("Somebody is in this area!");
@@ -153,47 +154,45 @@ void loop() {
     {
       Serial.println("No one!");
     }
-    
+
     /* flame detection */
     Flame_msgs.data = analogRead(Flame_PIN);
     pub_Flame.publish(&Flame_msgs);
-    
+
     /*Smoke detection MQ2 */
     MQ2_msgs.data = analogRead(MQ2_PIN);
-    MQ2_msgs.data = MQ2_msgs.data / 1024 * 1000 + 200; // follow the recommendation regarding LPS on datasheet
+    //MQ2_msgs.data = MQ2_msgs.data / 1024 * 1000 + 200; // follow the recommendation regarding LPS on datasheet
     pub_MQ2Smoke.publish(&MQ2_msgs);
-    
+
     /* Smoke detection MQ9 */
     MQ9_msgs_AI.data = analogRead(MQ9_PIN_AI);
     //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
-    MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 1000 + 500; // follow the recommendation regarding LPS on datasheet
+    //MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 1000 + 500; // follow the recommendation regarding LPS on datasheet
     pub_MQ9Smoke_AI.publish(&MQ9_msgs_AI);
-    //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);    
-    
-    /* Dust detection */ 
-    digitalWrite(Dust_PIN_DO,LOW); // power on the LED
+    //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
+
+    /* Dust detection */
+    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
     delayMicroseconds(samplingTime);
 
     voMeasured = analogRead(Dust_PIN_AI);
-    //Serial.println(voMeasured);
+
     delayMicroseconds(deltaTime);
-    digitalWrite(Dust_PIN_DO,HIGH); // turn the LED off
+    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
     delayMicroseconds(sleepTime);
-    
+
     calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
     Dust_msgs_VoMeasured.data = calcVoltage;
     pub_Dust_V.publish(&Dust_msgs_VoMeasured);
-    
+
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
-    Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet 
-    //Serial.println(calcVoltage);
+    Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
     pub_Dust.publish(&Dust_msgs);
 
-    
     /* timer */
-    publisher_timer = millis() + 2000;
+    publisher_timer = millis() + publishPeriod;
   }
   else;
-  Security.spinOnce(); 
-     
+  Security.spinOnce();
+
 }
