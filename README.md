@@ -94,6 +94,7 @@
 	* Adjustable resistance RL = 10K ohm
 
 	**Preheat time: 24hr**
+
 	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
 	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
 	
@@ -123,6 +124,7 @@
 	* Msg type: float (Lib: std_msgs::Float32) 
 	
 	**Preheat time: 48hr**
+
 	*We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
 **This sensor is pretty sensitive to temperature and humidity.**
 
