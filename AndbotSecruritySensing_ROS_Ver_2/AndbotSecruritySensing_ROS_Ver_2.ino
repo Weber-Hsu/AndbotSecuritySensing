@@ -6,6 +6,7 @@
 #include <sensor_msgs/RelativeHumidity.h>
 #include <std_msgs/Bool.h>
 #include <stdio.h>
+#include <Metro.h>
 
 /* Sensor libraries */
 #include <DHT22.h>      // temperauture sensor
@@ -28,7 +29,7 @@ MQ2 andbotMQ2(MQ2_PIN);
 MQ9 andbotMQ9(MQ9_PIN_AI);
 
 long publisher_timer ;
-long publishPeriod= 2000; 
+Metro publishPeriod = Metro(2000); 
 
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
@@ -43,7 +44,6 @@ std_msgs::Float32 MQ9_msgs_CH4;
 //std_msgs::Bool MQ9_msgs_DI; // MQ9 (smoke sensor) digital input
 std_msgs::Float32 Dust_msgs; // Sharp Optical Dust sensor analog input
 std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog input
-std_msgs::String SensorStatus_msgs; // Report back each sensors status
 
 /*  define  ROS node and topics */
 ros::NodeHandle Security;
@@ -57,7 +57,6 @@ ros::Publisher pub_MQ2SMOKE("/MQ2SMOKE", & MQ2_msgs_SMOKE);
 ros::Publisher pub_MQ9LPG("/MQ9LPG", & MQ9_msgs_LPG);
 ros::Publisher pub_MQ9CO("/MQ9CO", & MQ9_msgs_CO);
 ros::Publisher pub_MQ9CH4("/MQ9CH4", & MQ9_msgs_CH4);
-
 //ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
@@ -71,7 +70,7 @@ int samplingTime = 280; // LED Pulse Width = samplingTime + deltaTime = 320us
 int deltaTime = 40;
 int sleepTime = 9680; // period (per pulse) = 10ms, i.e, sleepingTime = 10ms - 320us = 9680 us
 
-int warmup = 2000 ; //(msec)
+Metro warmup = Metro(2000) ; //(msec)
 bool SensorReadyFlag = false;
 
 void setup() {
@@ -98,6 +97,7 @@ void setup() {
 
   Serial.begin(115200);
 
+  /* sensor calibration */
   andbotMQ2.MQCalibration();
   andbotMQ9.MQCalibration();
 }
@@ -108,7 +108,7 @@ void loop() {
   //warmup sequence
   if (SensorReadyFlag == false)
   {
-    if (millis() < warmup)
+    if (warmup.check() == false)
     {
       SensorReadyFlag = false;
       Serial.println("Please wait ...");
@@ -124,7 +124,7 @@ void loop() {
   /* DHT22 reading... */
   DHT22_ERROR_t errorCode;
 
-  if ((millis() > publisher_timer) && SensorReadyFlag == true)
+  if (publishPeriod.check() == true && SensorReadyFlag == true)
   {
     errorCode = andbotDHT22.readData();
     switch (errorCode)
@@ -133,22 +133,13 @@ void loop() {
         DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
         DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
         pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        Serial.println(andbotDHT22.getHumidity());
         pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_ERROR_CHECKSUM:
         Serial.println("sum error");
-        DHT22_Temperature_msgs.temperature = -1;
-        DHT22_Humidity_msgs.relative_humidity = -1;
-        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_BUS_HUNG:
         Serial.println("BUS Hung");
-        DHT22_Temperature_msgs.temperature = 0;
-        DHT22_Humidity_msgs.relative_humidity = 0;
-        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_ERROR_DATA_TIMEOUT:
         Serial.println("Data timeout");
@@ -190,6 +181,8 @@ void loop() {
     MQ9_msgs_LPG.data = andbotMQ9.readLPG();
     MQ9_msgs_CO.data = andbotMQ9.readCO();
     MQ9_msgs_CH4.data = andbotMQ9.readCH4();
+    Serial.print("CH4: ");
+    Serial.println(MQ9_msgs_CH4.data);
     //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
     pub_MQ9LPG.publish(&MQ9_msgs_LPG);
     pub_MQ9CO.publish(&MQ9_msgs_CO);
@@ -215,7 +208,7 @@ void loop() {
     pub_Dust.publish(&Dust_msgs);
 
     /* timer */
-    publisher_timer = millis() + publishPeriod;
+    //publisher_timer = millis() + publishPeriod;
   }
   else;
   Security.spinOnce();

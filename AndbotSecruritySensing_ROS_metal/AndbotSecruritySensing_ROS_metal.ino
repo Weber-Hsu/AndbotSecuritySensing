@@ -18,6 +18,8 @@
 
 /* Sensor libraries */
 #include <DHT22.h>      // temperauture sensor
+#include <MQ2.h> 
+#include <MQ9.h>
 
 /*************************************************************
  ********************* End of inclusion **********************
@@ -46,11 +48,6 @@ Metro freezeFrame = Metro(5000);
 int frameNumber = 0;
 
 volatile int commandRcv;
-
-//PIR vars
-//#define PIR_PIN 40
-//volatile int PIRval;
-//Metro PIRdelay = Metro(5000);
 
 const unsigned char normalFrames[5][16] =
 {
@@ -230,20 +227,26 @@ const unsigned char happy2Frames[20][16] =
 
 /* Setup variables used in this code*/
 DHT22 andbotDHT22(DHT22_PIN);
+MQ2 andbotMQ2(MQ2_PIN);
+MQ9 andbotMQ9(MQ9_PIN_AI);
 
 long publisher_timer ;
-Metro publishPeriod = Metro(2000); 
+Metro publishPeriod = Metro(2200); // sensor
+Metro LEDMatrixPeriod = Metro(20); // LED Matrix 
 
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
-std_msgs::Float32 MQ2_msgs; // MQ2 (smoke sensor) analog input
-std_msgs::Float32 MQ9_msgs_AI; // MQ9 (smoke sensor) analog input
+std_msgs::Float32 MQ2_msgs_LPG; // MQ2 (smoke sensor) analog input
+std_msgs::Float32 MQ2_msgs_CO;
+std_msgs::Float32 MQ2_msgs_SMOKE;
+std_msgs::Float32 MQ9_msgs_CO; // MQ9 (smoke sensor) analog input
+std_msgs::Float32 MQ9_msgs_LPG;
+std_msgs::Float32 MQ9_msgs_CH4;
 //std_msgs::Bool MQ9_msgs_DI; // MQ9 (smoke sensor) digital input
 std_msgs::Float32 Dust_msgs; // Sharp Optical Dust sensor analog input
 std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog input
-std_msgs::String SensorStatus_msgs; // Report back each sensors status
 
 /* temporary varibles for Dust sensing*/
 float voMeasured = 0;
@@ -260,16 +263,17 @@ bool SensorReadyFlag = false;
 /* ************  declarations for ROS usages *****************************************/
 
 /*  define  ROS node and topics */
-ros::NodeHandle nh; // LED Matrix
-
 ros::NodeHandle metal_head;
 ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
 ros::Publisher pub_Flame("/FlameDetection", &Flame_msgs);
-ros::Publisher pub_MQ2Smoke("/MQ2", & MQ2_msgs);
-ros::Publisher pub_MQ9Smoke_AI("/MQ9", & MQ9_msgs_AI);
-//ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
+ros::Publisher pub_MQ2LPG("/MQ2LPG", & MQ2_msgs_LPG);
+ros::Publisher pub_MQ2CO("/MQ2CO", & MQ2_msgs_CO);
+ros::Publisher pub_MQ2SMOKE("/MQ2SMOKE", & MQ2_msgs_SMOKE);
+ros::Publisher pub_MQ9LPG("/MQ9LPG", & MQ9_msgs_LPG);
+ros::Publisher pub_MQ9CO("/MQ9CO", & MQ9_msgs_CO);
+ros::Publisher pub_MQ9CH4("/MQ9CH4", & MQ9_msgs_CH4);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
 
@@ -300,16 +304,24 @@ void setup() {
   metal_head.advertise(pub_DHT22Humid);
   metal_head.advertise(pub_PIRstate);
   metal_head.advertise(pub_Flame);
-  metal_head.advertise(pub_MQ2Smoke);
-  metal_head.advertise(pub_MQ9Smoke_AI);
+  metal_head.advertise(pub_MQ2LPG);
+  metal_head.advertise(pub_MQ2CO);
+  metal_head.advertise(pub_MQ2SMOKE);
+  metal_head.advertise(pub_MQ9LPG);
+  metal_head.advertise(pub_MQ9CO);
+  metal_head.advertise(pub_MQ9CH4);
   //metal_head.advertise(pub_MQ9Smoke_DI);
   metal_head.advertise(pub_Dust);
   metal_head.advertise(pub_Dust_V);
 
+  //Serial.begin(115200);
 
-  Serial.begin(115200);
+  /* sensor calibration */
+  andbotMQ2.MQCalibration();
+  andbotMQ9.MQCalibration();
+
+  /* LED */
   commandRcv = -1;
-  //nh.initNode();
   metal_head.subscribe(sub_eyes);
   metal_head.spinOnce();
   M.set_cur(0,0);
@@ -320,16 +332,15 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  noInterrupts();
   //warmup sequence
   if (SensorReadyFlag == false)
   {
-    if (warmup.check()== false)
+    if (warmup.check() == false)
     {
       SensorReadyFlag = false;
       Serial.println("Please wait ...");
-    }
-    else
+        }
+        else
     {
       SensorReadyFlag = true;
       Serial.println("warmup finish");
@@ -349,22 +360,13 @@ void loop() {
         DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
         DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
         pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        Serial.println(andbotDHT22.getHumidityInt());
         pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_ERROR_CHECKSUM:
         Serial.println("sum error");
-        DHT22_Temperature_msgs.temperature = -1;
-        DHT22_Humidity_msgs.relative_humidity = -1;
-        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_BUS_HUNG:
         Serial.println("BUS Hung");
-        DHT22_Temperature_msgs.temperature = 0;
-        DHT22_Humidity_msgs.relative_humidity = 0;
-        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
-        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
       case DHT_ERROR_NOT_PRESENT:
         Serial.println("Nothing");
@@ -402,15 +404,23 @@ void loop() {
     pub_Flame.publish(&Flame_msgs);
 
     /*Smoke detection MQ2 */
-    MQ2_msgs.data = analogRead(MQ2_PIN);
-    MQ2_msgs.data = MQ2_msgs.data / 1024 * 1000 + 200; // follow the recommendation regarding LPS on datasheet
-    pub_MQ2Smoke.publish(&MQ2_msgs);
+    MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
+    MQ2_msgs_CO.data = andbotMQ2.readCO();
+    MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
+    pub_MQ2LPG.publish(&MQ2_msgs_LPG);
+    pub_MQ2CO.publish(&MQ2_msgs_CO);
+    pub_MQ2SMOKE.publish(&MQ2_msgs_SMOKE);
 
     /* Smoke detection MQ9 */
-    MQ9_msgs_AI.data = analogRead(MQ9_PIN_AI);
+    MQ9_msgs_LPG.data = andbotMQ9.readLPG();
+    MQ9_msgs_CO.data = andbotMQ9.readCO();
+    MQ9_msgs_CH4.data = andbotMQ9.readCH4();
+    Serial.print("CH4: ");
+    Serial.println(MQ9_msgs_CH4.data);
     //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
-    MQ9_msgs_AI.data = MQ9_msgs_AI.data / 1024 * 1000 + 500; // follow the recommendation regarding LPS on datasheet
-    pub_MQ9Smoke_AI.publish(&MQ9_msgs_AI);
+    pub_MQ9LPG.publish(&MQ9_msgs_LPG);
+    pub_MQ9CO.publish(&MQ9_msgs_CO);
+    pub_MQ9CH4.publish(&MQ9_msgs_CH4);
     //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
 
     /* Dust detection */
@@ -435,9 +445,13 @@ void loop() {
     //publisher_timer = millis() + publishPeriod;
   }
   else;
-  //metal_head.spinOnce();//Serial.println("blablabla");
-  interrupts();
-  M.display(hook);
+  metal_head.spinOnce();
+  
+  if (LEDMatrixPeriod.check() == true)
+  {
+    M.display(hook);
+  }
+  else;
 }
 void hook(void)
 {
@@ -529,19 +543,6 @@ void hook(void)
       metal_head.spinOnce();
       break;
   }
-  /*PIRval = digitalRead(PIR_PIN);
-  if(PIRval == 1)// && PIRdelay.check() == 1)
-  {
-    //INTRUDER!!!!!!!!!
-    _status.data = 1;
-    pub_PIR.publish(&_status);  
-    PIRdelay.reset();
-  }
-  else
-  {
-    //NOBODY HERE!!!!!!
-    _status.data = 0;
-    pub_PIR.publish(&_status);
-  }*/
-  nh.spinOnce();
+
+  metal_head.spinOnce();
 }
