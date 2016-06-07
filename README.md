@@ -21,7 +21,7 @@ MQ9_PIN_AI   |  A2
 Dust_PIN_AI  |  A3    
 Dust_PIN_DO  |  25    
 
-- [ ] this is an incomplete item
+- [x] this is a complete item
 
 # Implementation of each sensor on ROS
 
