@@ -232,7 +232,7 @@ MQ9 andbotMQ9(MQ9_PIN_AI);
 
 long publisher_timer ;
 Metro publishPeriod = Metro(2200); // sensor
-Metro LEDMatrixPeriod = Metro(20); // LED Matrix 
+Metro LEDMatrixPeriod = Metro(1); // LED Matrix 
 
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
@@ -332,6 +332,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  noInterrupts();
   //warmup sequence
   if (SensorReadyFlag == false)
   {
@@ -445,9 +446,10 @@ void loop() {
     //publisher_timer = millis() + publishPeriod;
   }
   else;
-  metal_head.spinOnce();
-  
-  if (LEDMatrixPeriod.check() == true)
+  //metal_head.spinOnce();
+
+  interrupts();
+  if (SensorReadyFlag == true)
   {
     M.display(hook);
   }
@@ -455,7 +457,6 @@ void loop() {
 }
 void hook(void)
 {
-  //Serial.println("hook");
   switch (commandRcv)
   {
     case 0://normal
