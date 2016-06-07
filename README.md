@@ -8,8 +8,15 @@
 		* Flame sensor * 1
 		* Dust sensor * 1 
 	* Controller:
-		* MEGA 2560 board * 1
-		[arduino/Mega2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
+		* [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560) * 1
+	* Pin configuration
+		* DHT22_PIN   |  22  // DHT22 (temperture & humidity reading) digital input
+		* PIR_PIN     |  23    // PIR (motion sensor) digital input
+		* Flame_PIN   |  A0    // Flame sensor V2 analog input
+		* MQ2_PIN     |  A1    // MQ2 (smoke sensor) analog input
+		* MQ9_PIN_AI  |  A2    // MQ9 (smoke sensor) analog input
+		* Dust_PIN_AI |  A3    // Sharp Optical Dust sensor analog input
+		* Dust_PIN_DO |  25    // Sharp Optical Dust sensor diginal
 
 * Implementation of each sensor on ROS
 
