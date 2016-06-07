@@ -9,16 +9,16 @@
 		* Dust sensor * 1 
 	* Installation:
 		* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
-	* Pin configuration
-	Input/Output |  Pins
-	-------------|-------------
-	DHT22_PIN    |  22  
-	PIR_PIN      |  23   
-	Flame_PIN    |  A0    
-	MQ2_PIN      |  A1    
-	MQ9_PIN_AI   |  A2    
-	Dust_PIN_AI  |  A3    
-	Dust_PIN_DO  |  25    
+		* Pin configuration
+Input/Output |  Pins
+-------------|-------------
+DHT22_PIN    |  22  
+PIR_PIN      |  23   
+Flame_PIN    |  A0    
+MQ2_PIN      |  A1    
+MQ9_PIN_AI   |  A2    
+Dust_PIN_AI  |  A3    
+Dust_PIN_DO  |  25    
 
 # Implementation of each sensor on ROS
 
