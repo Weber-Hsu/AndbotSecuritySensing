@@ -7,8 +7,8 @@
 		* Motion sensor PIR * 1
 		* Flame sensor * 1
 		* Dust sensor * 1 
-	* Controller:
-		* [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560) * 1
+	* Installation:
+		* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 	* Pin configuration
 		 Input/Output |  Pins
 		--------------|-------------
