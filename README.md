@@ -12,14 +12,16 @@
 		* Pin configuration
 
 Input/Output |  Pins
-		-------------|-------------
-		DHT22_PIN    |  22  
-		PIR_PIN      |  23   
-		Flame_PIN    |  A0    
-		MQ2_PIN      |  A1    
-		MQ9_PIN_AI   |  A2    
-		Dust_PIN_AI  |  A3    
-		Dust_PIN_DO  |  25    
+-------------|-------------
+DHT22_PIN    |  22  
+PIR_PIN      |  23   
+Flame_PIN    |  A0    
+MQ2_PIN      |  A1    
+MQ9_PIN_AI   |  A2    
+Dust_PIN_AI  |  A3    
+Dust_PIN_DO  |  25    
+
+- [ ] this is an incomplete item
 
 # Implementation of each sensor on ROS
 
