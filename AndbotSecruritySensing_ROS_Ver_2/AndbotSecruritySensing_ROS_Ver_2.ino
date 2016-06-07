@@ -5,6 +5,7 @@
 #include <sensor_msgs/Temperature.h>
 #include <sensor_msgs/RelativeHumidity.h>
 #include <std_msgs/Bool.h>
+#include <std_msgs/Int8MultiArray.h>
 #include <stdio.h>
 #include <Metro.h>
 
@@ -24,6 +25,15 @@
 #define Dust_PIN_DO  25    // Sharp Optical Dust sensor diginal
 
 /* Setup variables used in this code*/
+int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
+int SensorActiveStatus[5] = {true,true,true,true,true}; 
+#define SensorActiveNums 5
+#define MQ2_ID 0 
+#define MQ9_ID 1
+#define DHT22_ID 2
+#define Flame_ID 3
+#define PM2.5_ID 4 
+
 DHT22 andbotDHT22(DHT22_PIN);
 MQ2 andbotMQ2(MQ2_PIN);
 MQ9 andbotMQ9(MQ9_PIN_AI);
@@ -31,6 +41,7 @@ MQ9 andbotMQ9(MQ9_PIN_AI);
 long publisher_timer ;
 Metro publishPeriod = Metro(2000); 
 
+std_msgs::Int8MultiArray SensorList_msgs; // List of sensor configured on andbot
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
@@ -47,6 +58,7 @@ std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog inpu
 
 /*  define  ROS node and topics */
 ros::NodeHandle Security;
+ros::Publisher pub_SensorList("/SensorList", & SensorList_msgs);
 ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
@@ -60,7 +72,6 @@ ros::Publisher pub_MQ9CH4("/MQ9CH4", & MQ9_msgs_CH4);
 //ros::Publisher pub_MQ9Smoke_DI("/SmokeDetectionMQ9_D", & MQ9_msgs_DI);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
-
 
 /* temporary varibles for Dust sensing*/
 float voMeasured = 0;
@@ -81,6 +92,7 @@ void setup() {
 
   /* ROS Node configurations */
   Security.initNode();
+  
   Security.advertise(pub_DHT22Temp);
   Security.advertise(pub_DHT22Humid);
   Security.advertise(pub_PIRstate);
@@ -97,6 +109,22 @@ void setup() {
 
   Serial.begin(115200);
 
+  SensorList_msgs.layout.dim[0].label = "list";
+  SensorList_msgs.layout.dim[0].size = SensorActiveNums;
+  SensorList_msgs.layout.dim[0].stride = 1 * SensorActiveNums;
+  Security.advertise(pub_SensorList);
+  for (int i=0;i < SensorList_msgs.layout.dim[0].size; i++)
+  {
+    if (SensorActiveStatus[i] == true)
+    {
+      SensorList_msgs.data[i] = SensorID[i];
+    }
+    else;
+  }
+
+  
+
+
   /* sensor calibration */
   andbotMQ2.MQCalibration();
   andbotMQ9.MQCalibration();
@@ -104,7 +132,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  pub_SensorList.publish(&SensorList_msgs);
   //warmup sequence
   if (SensorReadyFlag == false)
   {

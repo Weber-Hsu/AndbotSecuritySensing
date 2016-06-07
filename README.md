@@ -1,16 +1,19 @@
 # AndbotSecuritySensing
-* Sensors
-	* MQ2 gas sensor * 1
-	* MQ9 CO/Combustible Gas sensor * 1
-	* DHT22 Temperature-Humidity sensor * 1
-	* Motion sensor PIR * 1
-	* Flame sensor * 1
-	* Dust sensor * 1 
+* Hardware configurations
+	* Sensors
+		* MQ2 gas sensor * 1
+		* MQ9 CO/Combustible Gas sensor * 1
+		* DHT22 Temperature-Humidity sensor * 1
+		* Motion sensor PIR * 1
+		* Flame sensor * 1
+		* Dust sensor * 1 
+	* Controller:
+		* MEGA 2560 board * 1
+		[arduino/Mega2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 
-* Controller:
-	* MEGA 2560 board * 1
-	[arduino/Mega2560](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
+* Implementation of each sensor on ROS
 
+* Sensor information published by ROS
 ===============================================================
 
 ## Motion sensor PIR
