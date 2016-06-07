@@ -1,13 +1,23 @@
 # AndbotSecuritySensing
+
+Details of Security Sensing on Andbot are listed below. For further development, the following can be implemented to other devices, Rugby, for example. This function are separated into two sections, Hardware configurations and ROS implementation.
+
 * Hardware configurations
-	* Sensors
-		* MQ2 gas sensor * 1
-		* MQ9 CO/Combustible Gas sensor * 1
-		* DHT22 Temperature-Humidity sensor * 1
-		* Motion sensor PIR * 1
-		* Flame sensor * 1
-		* Dust sensor * 1 
+	* Sensor list
+
+Item | amount
+-----|-------
+MQ2 gas sensor | 1
+MQ9 CO/Combustible Gas sensor | 1
+DHT22 Temperature-Humidity sensor | 1
+Flame sensor | 1
+Dust sensor |1
+Motion sensor PIR | 1
+ 
 	* Installation:
+	
+	**Please be carefull while practicing hardwares, and check twice before turning power on.**
+	
 		* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 		* Pin configuration
 
@@ -22,6 +32,14 @@ Dust_PIN_AI  |  A3
 Dust_PIN_DO  |  25    
 
 - [x] this is a complete item
+
+
+
+	* Code 
+		* Please refer to directory " ". 
+		* Please copy files in the libraries to Arduino/library before upload code to megaboard.
+		
+	**Folder " " and " " are my testing project. Please be aware! *Do not* use them.** 
 
 # Implementation of each sensor on ROS
 
