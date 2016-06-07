@@ -10,7 +10,8 @@
 	* Installation:
 		* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 		* Pin configuration
-		Input/Output |  Pins
+
+Input/Output |  Pins
 		-------------|-------------
 		DHT22_PIN    |  22  
 		PIR_PIN      |  23   
