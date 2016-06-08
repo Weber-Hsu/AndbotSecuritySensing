@@ -45,8 +45,8 @@ PIR_PIN      |  23 (Digital)
 -----------------------------------------------------------------------------------------------------
 
 ###Upload Code 
-	1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.) 
-	2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
+1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)
+2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
 	
 **Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
 
