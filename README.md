@@ -57,7 +57,6 @@ PIR_PIN      |  23 (Digital)
 * This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
 * **Preheat time: 24hr**
 * **This sensor is pretty sensitive to temperature and humidity.**
-* **This sensor is pretty sensitive to temperature and humidity.**
 * Reference
 	1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
 	2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
@@ -67,75 +66,74 @@ PIR_PIN      |  23 (Digital)
 	6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)			
 
 ###MQ9
-	* Supply Voltage: 5V
-	* Concentration:
-		* 10-1000ppm CO
-		* 100-10000ppm combustible gas
-	* Good sensitivity to CO/Combustible gas
-	* High sensitivity to Methane, Propane and CO
-	* **Preheat time: 48hr**
-	* **This sensor is pretty sensitive to temperature and humidity.**
-
-	**We desided not to use onboard digital output due to its unknown programmed threshold for alarm.**
-	* Reference 
-		1. [datasheet](https://solarbotics.com/download.php?file=2274)
-		2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
-		3. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134)
-		4. [example](http://www.powenko.com/wordpress/?p=5688)
-		5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
-		6. [CO safty level](http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316)	
+* Supply Voltage: 5V
+* Concentration:
+	* 10-1000ppm CO
+	* 100-10000ppm combustible gas
+* Good sensitivity to CO/Combustible gas
+* High sensitivity to Methane, Propane and CO
+* **Preheat time: 48hr**
+* **This sensor is pretty sensitive to temperature and humidity.**
+**We desided not to use onboard digital output due to its unknown programmed threshold for alarm.**
+* Reference 
+	1. [datasheet](https://solarbotics.com/download.php?file=2274)
+	2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
+	3. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134)
+	4. [example](http://www.powenko.com/wordpress/?p=5688)
+	5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
+	6. [CO safty level](http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316)	
 
 ###DHT22
-	* Output: alibrated digital signal
-	* Power: 3.3~5.5V
-	* Sensing range: 
-		* Humidity: 0-100% RH
-		* Temperature: -40 ~ 80 Celsius
-	* Resolution: 
-		* Humidity: 0.1% RH;
-		* Temperature: 0.1 Celsius
-	* Accuracy: 
-		* Humidity: +-2% RH (Max+-5%RH)
-		* Temperature: +-0.5 Celsius
-	* Reference
-		1. [Datasheet](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)
-		2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More)	
+* Output: alibrated digital signal
+* Power: 3.3~5.5V
+* Sensing range: 
+	* Humidity: 0-100% RH
+	* Temperature: -40 ~ 80 Celsius
+* Resolution: 
+	* Humidity: 0.1% RH;
+	* Temperature: 0.1 Celsius
+* Accuracy: 
+	* Humidity: +-2% RH (Max+-5%RH)
+	* Temperature: +-0.5 Celsius
+* Reference
+	1. [Datasheet](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)
+	2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More)	
 
 ###FLAME	
-	* Supply Voltage: 3.3V to 5V
-	* Detection range: 20cm (4.8V) ~ 100cm (1V)
-	* Rang of Spectral Bandwidth : 760nm to 1100nm
-	* Responsive time : 15us
-	* Interface: Analog
-	* **The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
-	* Reference 
-		1. [dfrobot/product](http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV)
-		2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076)
-		3. [schemetics](http://www.dfrobot.com/image/data/DFR0076/V2.0/Flame%20Sensor%20SCH.pdf)
-		4. [datasheet](https://github.com/Arduinolibrary/Source/blob/master/YG1006ataSheet.pdf?raw=true)
+* Supply Voltage: 3.3V to 5V
+* Detection range: 20cm (4.8V) ~ 100cm (1V)
+* Rang of Spectral Bandwidth : 760nm to 1100nm
+* Responsive time : 15us
+* Interface: Analog
+* **The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
+* Reference 
+	1. [dfrobot/product](http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV)
+	2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076)
+	3. [schemetics](http://www.dfrobot.com/image/data/DFR0076/V2.0/Flame%20Sensor%20SCH.pdf)
+	4. [datasheet](https://github.com/Arduinolibrary/Source/blob/master/YG1006ataSheet.pdf?raw=true)
 
 ###PM2.5
-	* Supply voltage: 5-7V
-	* Operating temperature: -10-65 Celsius 
-	* Output range:
-	* Reference
-		1. [datasheet](http://www.dfrobot.com/image/data/SEN0144/gp2y1010au_e.pdf)
-		2. [datasheet](http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf)
-		3. [example](http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html)
-		4. [dfrobot/](http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV)
-		5. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU)
+* Supply voltage: 5-7V
+* Operating temperature: -10-65 Celsius 
+* Output range:
+* Reference
+	1. [datasheet](http://www.dfrobot.com/image/data/SEN0144/gp2y1010au_e.pdf)
+	2. [datasheet](http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf)
+	3. [example](http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html)
+	4. [dfrobot/](http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV)
+	5. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU)
 
 ###PIR		
-	* Input type: pyroelectic infrared. detecting infrared signals from moving person or animals.
-	* Output: switching signals
-	  High 3V
-	  Low 0V
-	* Power input: 3.3~5 V (It should not be bigger than 6V)
-	* Applications: body movements
-	* Working current: 15uA
-	* Detection distance: 7 m
-	* Reference 
-			* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)		
+* Input type: pyroelectic infrared. detecting infrared signals from moving person or animals.
+* Output: switching signals
+  High 3V
+  Low 0V
+* Power input: 3.3~5 V (It should not be bigger than 6V)
+* Applications: body movements
+* Working current: 15uA
+* Detection distance: 7 m
+* Reference 
+		* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)		
 			 
 ==============================================================================================================
 
