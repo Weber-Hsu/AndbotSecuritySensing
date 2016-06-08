@@ -48,8 +48,81 @@ PIR_PIN      |  23 (Digital)
 	
 **Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
 
---------------------------------------------------------------------------------------------------------
+==============================================================================================================
+
+## Sensor information published by using ROS 
+### MQ2 gas sensor
+* Output format: Analog (intensity)
+* ROS 
+	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
+	* Msg type: float (Lib: std_msgs::Float32)
+	* Output: ppm 
+		(**Approximation** is derived from datasheet; details are the following.)
+		1. Sensor calibration procedure (written in the code already):
+			* Before running Calibration: 
+		**It must be placed in anywhere with clean air.**
+				Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+			* Calibrating sensor resistance Ro in clean air:
+	    Pre-defined factor: Ro Clean Air factor 
+		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
+			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		2. Measuring gas
+			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+			gas (ppm) = 10 ^ ( a * logx + b) 
+
+### MQ9 CO/Combustible Gas sensor
+* Output format: Analog (intensity) 
+	* Adjustable resistance RL = 5.4K ohm
+* ROS 
+	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
+	* Msg type: float (Lib: std_msgs::Float32)
+	* Output: ppm (Approximation is derived from datasheet; details are the following.)
+		* Sensor calibration procedure (written in the code already):
+		Before running Calibration: 
+		It must be placed in anywhere with clean air.
+		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+		Calibrating sensor resistance Ro in clean air:
+	    Pre-defined factor: Ro Clean Air factor 
+		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
+		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		* Measuring gas
+			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+			gas (ppm) = 10 ^ ( a * logx + b)
+
+### DHT22 Temperature-Humidity sensor
+* Output format: Digital
+* ROS 
+	* Topic: /CurTemperature
+	* Topic: /CurHumidity
+	* Msg type: double (Lib: sensor_msgs/Temperature & sensor_msgs/RelativeHumidity)
+
+### Flame sensor
+* Output format: Analog (intensity)
+* ROS 
+	* Topic: /FlameDetection
+	* Msg type: float (Lib: std_msgs::Float32)
+	* Value: 0 ~ 1023
+
+### Dust sensor -- pending. Need further testing.
+* Output format: analog 
+	* Physical meaning: signal can be transfered to Dust Density
+* ROS 
+	* Topic: /DustDetection
+	* Msg type: float (Lib: std_msgs::Float32)
+	* Unit: mg/m3
 	
+	**Be aware of the wire color and pinout when setting up.**
+
+### Motion sensor PIR
+* Output format: Digital
+* ROS 
+	* Topic: /MotionDetection
+	* Msg type: Boolean (Lib: std_msgs/Bool)
+	
+	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
+
+====================================================================================================
+		
 ### Specifications and other useful reference of each sensor
 ####MQ2	
 * Supply Voltage: 5V
@@ -134,83 +207,5 @@ PIR_PIN      |  23 (Digital)
 * Detection distance: 7 m
 * Reference 
 		* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)		
-			 
-==============================================================================================================
-
-## Sensor information published by using ROS 
-### MQ2 gas sensor
-* Output format: Analog (intensity)
-* ROS 
-	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
-	* Msg type: float (Lib: std_msgs::Float32)
-	* Output: ppm 
-		(**Approximation** is derived from datasheet; details are the following.)
-		1. Sensor calibration procedure (written in the code already):
-			* Before running Calibration: 
-		**It must be placed in anywhere with clean air.**
-				Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-			* Calibrating sensor resistance Ro in clean air:
-	    Pre-defined factor: Ro Clean Air factor 
-		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
-			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
-		2. Measuring gas
-			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-			gas (ppm) = 10 ^ ( a * logx + b) 
-
-### MQ9 CO/Combustible Gas sensor
-* Output format: Analog (intensity) 
-	* Adjustable resistance RL = 5.4K ohm
-* ROS 
-	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
-	* Msg type: float (Lib: std_msgs::Float32)
-	* Output: ppm (Approximation is derived from datasheet; details are the following.)
-		* Sensor calibration procedure (written in the code already):
-		Before running Calibration: 
-		It must be placed in anywhere with clean air.
-		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-		Calibrating sensor resistance Ro in clean air:
-	    Pre-defined factor: Ro Clean Air factor 
-		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
-		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
-		* Measuring gas
-			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-			gas (ppm) = 10 ^ ( a * logx + b)
-
-### DHT22 Temperature-Humidity sensor
-* Output format: Digital
-* ROS 
-	* Topic: /CurTemperature
-	* Topic: /CurHumidity
-	* Msg type: double (Lib: sensor_msgs/Temperature & sensor_msgs/RelativeHumidity)
-
-### Flame sensor
-* Output format: Analog (intensity)
-* ROS 
-	* Topic: /FlameDetection
-	* Msg type: float (Lib: std_msgs::Float32)
-	* Value: 0 ~ 1023
-
-### Dust sensor -- pending. Need further testing.
-* Output format: analog 
-	* Physical meaning: signal can be transfered to Dust Density
-* ROS 
-	* Topic: /DustDetection
-	* Msg type: float (Lib: std_msgs::Float32)
-	* Unit: mg/m3
-	
-	**Be aware of the wire color and pinout when setting up.**
-
-### Motion sensor PIR
-* Output format: Digital
-* ROS 
-	* Topic: /MotionDetection
-	* Msg type: Boolean (Lib: std_msgs/Bool)
-	
-	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
-
-
-====================================================================================================
-		
-
 
 
