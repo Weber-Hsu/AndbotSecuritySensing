@@ -2,10 +2,23 @@
 
 This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details described below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. 
 
+* Table of contents
+	* Hardware configurations
+		* Sensor list
+		* Installation on Andbot
+		* Upload code
+	* Sensor information published by using ROS 
+		* Sensor Active List
+		* MQ2 gas sensor
+		* MQ9 CO/Combustible Gas sensor
+		* DHT22 Temperature-Humidity sensor
+		* Flame sensor
+		* Dust sensor
+		* Motion sensor PIR
+	* Specifications and other useful reference of each sensor
+
 ## Hardware configurations
 ### Sensor list
-
-<center>
 
 Item | Amount
 -----|-------
@@ -15,8 +28,6 @@ DHT22 Temperature-Humidity sensor | 1
 Flame sensor | 1
 Dust sensor | 1
 Motion sensor PIR | 1
-
-</center>
 
 **Note: Order of sensor has been defined. Please follow this in any future discussion.**
 
@@ -125,7 +136,7 @@ Sensor |  ID
 ----------------------------------------------------------
 		
 ### Specifications and other useful reference of each sensor
-####MQ2	
+#### MQ2	
 * Supply Voltage: 5V
 * Adjustable resistance RL = 10K ohm
 * This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
@@ -150,7 +161,7 @@ Sensor |  ID
 	5. [example](http://www.powenko.com/wordpress/?p=5688)
 	6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)			
 
-####MQ9
+#### MQ9
 * Supply Voltage: 5V
 * Concentration:
 	* 10-1000ppm CO
@@ -179,7 +190,7 @@ Sensor |  ID
 	5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
 	6. [CO safty level](http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316)	
 
-####DHT22
+#### DHT22
 * Output: alibrated digital signal
 * Power: 3.3~5.5V
 * Sensing range: 
@@ -195,7 +206,7 @@ Sensor |  ID
 	1. [Datasheet](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)
 	2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More)	
 
-####FLAME	
+#### FLAME	
 * Supply Voltage: 3.3V to 5V
 * Detection range: 20cm (4.8V) ~ 100cm (1V)
 * Rang of Spectral Bandwidth : 760nm to 1100nm
@@ -208,7 +219,7 @@ Sensor |  ID
 	3. [schemetics](http://www.dfrobot.com/image/data/DFR0076/V2.0/Flame%20Sensor%20SCH.pdf)
 	4. [datasheet](https://github.com/Arduinolibrary/Source/blob/master/YG1006ataSheet.pdf?raw=true)
 
-####PM2.5
+#### PM2.5
 * Supply voltage: 5-7V
 * Operating temperature: -10-65 Celsius 
 * Output range:
@@ -219,7 +230,7 @@ Sensor |  ID
 	4. [dfrobot/](http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV)
 	5. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU)
 
-####PIR		
+#### PIR		
 * Input type: pyroelectic infrared. detecting infrared signals from moving person or animals.
 * Output: switching signals
   High 3V
