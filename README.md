@@ -25,8 +25,8 @@ Motion sensor PIR | 1
 -----------------------------------------------------------------------------------------------------
  
 ###Installation on andbot
-	* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
-	* Pin configuration
+* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
+* Pin configuration
 		
 **Please be carefull while setting up hardwares, and check twice before turning power on.**
 
