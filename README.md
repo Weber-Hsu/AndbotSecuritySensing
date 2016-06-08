@@ -40,7 +40,7 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
-* Upload Code 
+* **Upload Code** 
 	1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.) 
 	2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
 	
@@ -48,20 +48,14 @@ PIR_PIN      |  23 (Digital)
 
 --------------------------------------------------------------------------------------------------------
 	
-* Specifications and other useful reference of each sensor
+## Specifications and other useful reference of each sensor
 	* MQ2	
 		* Supply Voltage: 5V
 		* Adjustable resistance RL = 10K ohm
 		* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
-		**Preheat time: 24hr**
-		**This sensor is pretty sensitive to temperature and humidity.**
-
-	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
-	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
-	
-	**There is a adjustable resistor that can be tune for suitable sensitivity.**
-	
-	*This sensor is pretty sensitive to temperature and humidity.*
+		* **Preheat time: 24hr**
+		* **This sensor is pretty sensitive to temperature and humidity.**
+		* **This sensor is pretty sensitive to temperature and humidity.**
 		* Reference
 			1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
 			2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
@@ -76,10 +70,10 @@ PIR_PIN      |  23 (Digital)
 			* 100-10000ppm combustible gas
 		* Good sensitivity to CO/Combustible gas
 		* High sensitivity to Methane, Propane and CO
-		**Preheat time: 48hr**
+		* **Preheat time: 48hr**
+		* **This sensor is pretty sensitive to temperature and humidity.**
 
-	*We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
-**This sensor is pretty sensitive to temperature and humidity.**
+	**We desided not to use onboard digital output due to its unknown programmed threshold for alarm.**
 
 		* Reference 
 			1. [datasheet](https://solarbotics.com/download.php?file=2274)
@@ -88,7 +82,7 @@ PIR_PIN      |  23 (Digital)
 			4. [example](http://www.powenko.com/wordpress/?p=5688)
 			5. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
 			6. [CO safty level](http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316)	
-  	* DHT22
+  * DHT22
 		* Output: alibrated digital signal
 		* Power: 3.3~5.5V
 		* Sensing range: 
@@ -109,7 +103,7 @@ PIR_PIN      |  23 (Digital)
 		* Rang of Spectral Bandwidth : 760nm to 1100nm
 		* Responsive time : 15us
 		* Interface: Analog
-		**The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
+		* **The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
 		* Reference 
 			1. [dfrobot/product](http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV)
 			2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076)
@@ -145,18 +139,19 @@ PIR_PIN      |  23 (Digital)
 * ROS 
 	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
 	* Msg type: float (Lib: std_msgs::Float32)
-	* Output: ppm (Approximation is derived from datasheet; details are the following.)
-		* Sensor calibration procedure (written in the code already):
-		Before running Calibration: 
-		It must be placed in anywhere with clean air.
-		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-		Calibrating sensor resistance Ro in clean air:
+	* Output: ppm 
+		(**Approximation** is derived from datasheet; details are the following.)
+		1. Sensor calibration procedure (written in the code already):
+			* Before running Calibration: 
+		**It must be placed in anywhere with clean air.**
+				Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+			* Calibrating sensor resistance Ro in clean air:
 	    Pre-defined factor: Ro Clean Air factor 
-		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
-		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
-		* Measuring gas
-		Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-		gas (ppm) = 10 ^ ( a * logx + b) 
+		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
+			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		2. Measuring gas
+			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+			gas (ppm) = 10 ^ ( a * logx + b) 
 		
 ## MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) 
