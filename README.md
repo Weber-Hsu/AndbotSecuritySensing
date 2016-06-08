@@ -55,11 +55,13 @@ PIR_PIN      |  23 (Digital)
 ==========================================================
 
 ### Upload Code 
-**All programs for running are included in this repository.**
+
+**All programs are included in this repository.**
+
 1. **Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)**
 2. **Main code: Please refer to folder MetalHeadVerROSSensingLED.** 
 	
-**Folder "Temporary Version" is debugging Version, and folder "MetalHeadPreviousVersion" contains code that simply turn the LED on. Please be aware! *Do not* use them.**
+**Folder "Temporary Version" is debugging Version, and folder "MetalHeadPreviousVersion" contains program that will only turn the LED on. Please be aware! *Do not* use them.**
 
 ----------------------------------------------------------
 
