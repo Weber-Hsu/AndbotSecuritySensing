@@ -25,8 +25,8 @@
 #define Dust_PIN_DO  25    // Sharp Optical Dust sensor diginal
 
 /* Setup variables used in this code*/
-int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
-int SensorActiveStatus[5] = {true,true,true,true,true}; 
+unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
+unsigned int SensorActiveStatus[5] = {true,true,true,true,true}; 
 #define SensorActiveNums 5
 #define MQ2_ID 0 
 #define MQ9_ID 1
@@ -109,20 +109,22 @@ void setup() {
 
   Serial.begin(115200);
 
-  SensorList_msgs.layout.dim[0].label = "list";
-  SensorList_msgs.layout.dim[0].size = SensorActiveNums;
-  SensorList_msgs.layout.dim[0].stride = 1 * SensorActiveNums;
+  //SensorList_msgs.layout.dim[0].label = "list";
+  SensorList_msgs.layout.dim_length = SensorActiveNums;
+  //SensorList_msgs.layout.dim[0].stride = 1 ;//* SensorActiveNums;
   Security.advertise(pub_SensorList);
-  for (int i=0;i < SensorList_msgs.layout.dim[0].size; i++)
+
+  
+     
+  for (int i=0 ; i < SensorActiveNums; i++)
   {
     if (SensorActiveStatus[i] == true)
     {
       SensorList_msgs.data[i] = SensorID[i];
+      //Serial.println("FUCK");
     }
     else;
   }
-
-  
 
 
   /* sensor calibration */
@@ -132,6 +134,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  //Serial.println(SensorList_msgs.data[2]);
   pub_SensorList.publish(&SensorList_msgs);
   //warmup sequence
   if (SensorReadyFlag == false)
