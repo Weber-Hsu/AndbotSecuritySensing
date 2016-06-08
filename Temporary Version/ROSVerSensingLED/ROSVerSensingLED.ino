@@ -5,7 +5,7 @@
 #include <sensor_msgs/Temperature.h>
 #include <sensor_msgs/RelativeHumidity.h>
 #include <std_msgs/Bool.h>
-#include <std_msgs/Int8MultiArray.h>
+#include <std_msgs/UInt8MultiArray.h>
 #include <stdio.h>
 #include <Metro.h>
 
@@ -41,7 +41,7 @@ MQ9 andbotMQ9(MQ9_PIN_AI);
 long publisher_timer ;
 Metro publishPeriod = Metro(2000); 
 
-std_msgs::Int8MultiArray SensorList_msgs; // List of sensor configured on andbot
+std_msgs::UInt8MultiArray SensorList_msgs; // List of sensor configured on andbot
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
@@ -58,7 +58,7 @@ std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog inpu
 
 /*  define  ROS node and topics */
 ros::NodeHandle Security;
-ros::Publisher pub_SensorList("/SensorList", & SensorList_msgs);
+ros::Publisher pub_SensorList("/SensorActiveList", & SensorList_msgs);
 ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
