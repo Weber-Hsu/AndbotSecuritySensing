@@ -201,6 +201,8 @@ void loop() {
     MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
     MQ2_msgs_CO.data = andbotMQ2.readCO();
     MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
+    Serial.print("SMOKE: ");
+    Serial.println(MQ2_msgs_SMOKE.data);
     pub_MQ2LPG.publish(&MQ2_msgs_LPG);
     pub_MQ2CO.publish(&MQ2_msgs_CO);
     pub_MQ2SMOKE.publish(&MQ2_msgs_SMOKE);
