@@ -55,13 +55,15 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
+**Please refer to the section--Specifications and other useful reference of each sensor if you encounters any problems.**
+
 ==========================================================
 
 ### Upload Code 
 1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)
-2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
+2. Main code: Please refer to folder MetalHeadVerROSSensingLED. 
 	
-**Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
+**Folder "Temporary Version" is debugging Version, and folder "MetalHeadPreviousVersion" contains code that simply turn the LED on. Please be aware! *Do not* use them.**
 
 ----------------------------------------------------------
 
@@ -94,7 +96,6 @@ Sensor |  ID
 
 ### MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) 
-	* Adjustable resistance RL = 5.4K ohm
 * ROS 
 	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
 	* Msg type: float (Lib: std_msgs::Float32)
@@ -143,9 +144,10 @@ Sensor |  ID
 * **Preheat time: 24hr**
 * **This sensor is pretty sensitive to temperature and humidity.**
 * Sensor calibration procedure (written in the code already):
-	1. Before running Calibration: 
-		**It must be placed in anywhere with clean air.**
-		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+	1. Before running Calibration:
+	 
+	It must be placed in anywhere with clean air.Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+	
 	2. Calibrating sensor resistance Ro in clean air:
 	 	Pre-defined factor: Ro Clean Air factor 
 		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
