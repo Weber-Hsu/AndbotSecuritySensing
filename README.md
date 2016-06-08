@@ -54,6 +54,7 @@ PIR_PIN      |  23 (Digital)
 		* Adjustable resistance RL = 10K ohm
 		* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
 		**Preheat time: 24hr**
+		**This sensor is pretty sensitive to temperature and humidity.**
 
 	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
 	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
@@ -75,6 +76,11 @@ PIR_PIN      |  23 (Digital)
 			* 100-10000ppm combustible gas
 		* Good sensitivity to CO/Combustible gas
 		* High sensitivity to Methane, Propane and CO
+		**Preheat time: 48hr**
+
+	*We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
+**This sensor is pretty sensitive to temperature and humidity.**
+
 		* Reference 
 			1. [datasheet](https://solarbotics.com/download.php?file=2274)
 			2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
@@ -103,6 +109,7 @@ PIR_PIN      |  23 (Digital)
 		* Rang of Spectral Bandwidth : 760nm to 1100nm
 		* Responsive time : 15us
 		* Interface: Analog
+		**The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
 		* Reference 
 			1. [dfrobot/product](http://www.dfrobot.com/index.php?route=product/product&product_id=195#.V0KYAHV97aV)
 			2. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076)
@@ -139,27 +146,37 @@ PIR_PIN      |  23 (Digital)
 	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm (Approximation is derived from datasheet; details are the following.)
-		* Sensor calibration:
-		Calibrate sensor resistance Rs: 
+		* Sensor calibration procedure (written in the code already):
+		Before running Calibration: 
 		It must be placed in anywhere with clean air.
-		Tune RL to 5k ohm
+		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+		Calibrating sensor resistance Ro in clean air:
+	    Pre-defined factor: Ro Clean Air factor 
+		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
+		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		* Measuring gas
+		Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+		gas (ppm) = 10 ^ ( a * logx + b) 
 		
-		* Pre-defined factor: Ro Clean Air factor 
-
-	
-
 ## MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) 
 	* Adjustable resistance RL = 5.4K ohm
 * ROS 
-	* Topic: /MQ9
-	* Msg type: float (Lib: std_msgs::Float32) 
+	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
+	* Msg type: float (Lib: std_msgs::Float32)
+	* Output: ppm (Approximation is derived from datasheet; details are the following.)
+		* Sensor calibration procedure (written in the code already):
+		Before running Calibration: 
+		It must be placed in anywhere with clean air.
+		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+		Calibrating sensor resistance Ro in clean air:
+	    Pre-defined factor: Ro Clean Air factor 
+		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
+		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		* Measuring gas
+		Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+		gas (ppm) = 10 ^ ( a * logx + b) 
 	
-	**Preheat time: 48hr**
-
-	*We desided not to use onboard digital output due to its unknown programmed threshold for alarm.*
-**This sensor is pretty sensitive to temperature and humidity.**
-
 ## DHT22 Temperature-Humidity sensor
 * Output format: Digital
 * ROS 
@@ -173,8 +190,6 @@ PIR_PIN      |  23 (Digital)
 	* Topic: /FlameDetection
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Value: 0 ~ 1023
-	
-	**The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.**
 
 ## Motion sensor PIR
 * Output format: Digital
@@ -184,7 +199,7 @@ PIR_PIN      |  23 (Digital)
 	
 	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
 
-## Dust sensor -- pending. Need further discussion.
+## Dust sensor -- pending. Need further testing.
 * Output format: analog 
 	* Physical meaning: signal can be transfered to Dust Density
 * ROS 
