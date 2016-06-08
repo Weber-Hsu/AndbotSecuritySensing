@@ -3,7 +3,7 @@
 This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details described below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. 
 
 ## Hardware configurations
-### ensor list
+### Sensor list
 
 Item | Amount
 -----|-------
@@ -20,7 +20,7 @@ Motion sensor PIR | 1
 
 - [ ] **2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
-=====================================================================================================
+==========================================================================================================================================================================================================
  
 ### Installation on andbot
 * metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
@@ -40,7 +40,7 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
-=====================================================================================================
+==========================================================================================================================================================================================================
 
 ### Upload Code 
 1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)
@@ -48,9 +48,26 @@ PIR_PIN      |  23 (Digital)
 	
 **Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
 
------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Sensor information published by using ROS 
+
+### Sensor List
+* ROS
+	* Sensor ID definition: 
+
+Sensor |  ID
+-------|-------
+ MQ2   |   0   
+ MQ9   |   1   
+ DHT22 |   2   
+ Flame |   3   
+ PM2.5 |   4   
+ PIR   |   5
+ 
+ 	*	Topic: /SensorActiveList
+ 	*	Msg type: Int8MultiArray (Lib: std_msgs::Int8MultiArray)
+ 	
 ### MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
@@ -111,7 +128,7 @@ PIR_PIN      |  23 (Digital)
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Unit: mg/m3
 	
-	**Be aware of the wire color and pinout when setting up.**
+**Be aware of the wire color and pinout when setting up.**
 
 ### Motion sensor PIR
 * Output format: Digital
@@ -119,9 +136,9 @@ PIR_PIN      |  23 (Digital)
 	* Topic: /MotionDetection
 	* Msg type: Boolean (Lib: std_msgs/Bool)
 	
-	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
+**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
 
------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
 ### Specifications and other useful reference of each sensor
 ####MQ2	
