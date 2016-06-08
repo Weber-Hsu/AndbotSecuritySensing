@@ -50,7 +50,7 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
-**Please refer to the section--Specifications and other useful reference of each sensor if you encounters any problems.**
+**Please refer to the section--Specifications and other useful reference of each sensor if you encounters any problem.**
 
 ==========================================================
 
@@ -90,15 +90,15 @@ Sensor |  ID
 	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm 
-		(**Approximation** is derived from datasheet; details are the following.) 
+		(**Approximation** is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.) 
 
 ### MQ9 CO/Combustible Gas sensor -- Pending
 * Output format: Analog (intensity) 
 * ROS 
 	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
 	* Msg type: float (Lib: std_msgs::Float32)
-	* Output: ppm (**Approximation** is derived from datasheet; details are the following.)
-	* Pending reason: We believed that this breakout board were designed not properly. There is no adjustable resistance for analog output. 
+	* Output: ppm (**Approximation** is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.)
+	* Pending reason: We believe that this breakout board were designed not properly. There is no adjustable resistance for analog output. 
 		
 
 ### DHT22 Temperature-Humidity sensor
