@@ -18,9 +18,7 @@ Motion sensor PIR | 1
 
 **Please note: Sensor type of the Dust sensing are still on the discussion.**
 
-**2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
-
-- [ ] Dust sensor is an uncomplete task.
+- [ ] **2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
 -----------------------------------------------------------------------------------------------------
  
@@ -54,19 +52,19 @@ PIR_PIN      |  23 (Digital)
 	
 ## Specifications and other useful reference of each sensor
 ###MQ2	
-	* Supply Voltage: 5V
-	* Adjustable resistance RL = 10K ohm
-	* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
-	* **Preheat time: 24hr**
-	* **This sensor is pretty sensitive to temperature and humidity.**
-	* **This sensor is pretty sensitive to temperature and humidity.**
-	* Reference
-		1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
-		2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
-		3. [datasheet](https://www.pololu.com/file/0J309/MQ2.pdf)
-		4. [example](http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html)
-		5. [example](http://www.powenko.com/wordpress/?p=5688)
-		6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)			
+* Supply Voltage: 5V
+* Adjustable resistance RL = 10K ohm
+* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
+* **Preheat time: 24hr**
+* **This sensor is pretty sensitive to temperature and humidity.**
+* **This sensor is pretty sensitive to temperature and humidity.**
+* Reference
+	1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
+	2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
+	3. [datasheet](https://www.pololu.com/file/0J309/MQ2.pdf)
+	4. [example](http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html)
+	5. [example](http://www.powenko.com/wordpress/?p=5688)
+	6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)			
 
 ###MQ9
 	* Supply Voltage: 5V
