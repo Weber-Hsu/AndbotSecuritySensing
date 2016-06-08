@@ -20,7 +20,7 @@ Motion sensor PIR | 1
 
 - [ ] **2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
-==========================================================================================================================================================================================================
+==========================================================
  
 ### Installation on andbot
 * metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
@@ -40,7 +40,7 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
-==========================================================================================================================================================================================================
+==========================================================
 
 ### Upload Code 
 1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)
@@ -48,11 +48,11 @@ PIR_PIN      |  23 (Digital)
 	
 **Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------
 
 ## Sensor information published by using ROS 
 
-### Sensor List
+### Sensor Active List
 * ROS
 	* Sensor ID definition: 
 
@@ -65,6 +65,7 @@ Sensor |  ID
  PM2.5 |   4   
  PIR   |   5
  
+ 
  	*	Topic: /SensorActiveList
  	*	Msg type: Int8MultiArray (Lib: std_msgs::Int8MultiArray)
  	
@@ -74,18 +75,7 @@ Sensor |  ID
 	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm 
-		(**Approximation** is derived from datasheet; details are the following.)
-		1. Sensor calibration procedure (written in the code already):
-			* Before running Calibration: 
-		**It must be placed in anywhere with clean air.**
-				Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-			* Calibrating sensor resistance Ro in clean air:
-	    Pre-defined factor: Ro Clean Air factor 
-		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
-			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
-		2. Measuring gas
-			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-			gas (ppm) = 10 ^ ( a * logx + b) 
+		(**Approximation** is derived from datasheet; details are the following.) 
 
 ### MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) 
@@ -94,17 +84,7 @@ Sensor |  ID
 	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm (Approximation is derived from datasheet; details are the following.)
-		* Sensor calibration procedure (written in the code already):
-		Before running Calibration: 
-		It must be placed in anywhere with clean air.
-		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-		Calibrating sensor resistance Ro in clean air:
-	    Pre-defined factor: Ro Clean Air factor 
-		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
-		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
-		* Measuring gas
-			Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-			gas (ppm) = 10 ^ ( a * logx + b)
+		
 
 ### DHT22 Temperature-Humidity sensor
 * Output format: Digital
@@ -138,7 +118,7 @@ Sensor |  ID
 	
 **Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------
 		
 ### Specifications and other useful reference of each sensor
 ####MQ2	
@@ -147,6 +127,17 @@ Sensor |  ID
 * This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
 * **Preheat time: 24hr**
 * **This sensor is pretty sensitive to temperature and humidity.**
+* Sensor calibration procedure (written in the code already):
+	1. Before running Calibration: 
+		**It must be placed in anywhere with clean air.**
+		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+	2. Calibrating sensor resistance Ro in clean air:
+	 	Pre-defined factor: Ro Clean Air factor 
+		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
+			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+* Measuring gas
+	Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+	gas (ppm) = 10 ^ ( a * logx + b)
 * Reference
 	1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
 	2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
@@ -165,6 +156,17 @@ Sensor |  ID
 * **Preheat time: 48hr**
 * **This sensor is pretty sensitive to temperature and humidity.**
 **We desided not to use onboard digital output due to its unknown programmed threshold for alarm.**
+* Sensor calibration procedure (written in the code already):
+	1. Before running Calibration: 
+		It must be placed in anywhere with clean air.
+		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+	2. Calibrating sensor resistance Ro in clean air:
+    	Pre-defined factor: Ro Clean Air factor 
+		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
+		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+* Measuring gas
+	Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+	gas (ppm) = 10 ^ ( a * logx + b)
 * Reference 
 	1. [datasheet](https://solarbotics.com/download.php?file=2274)
 	2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
