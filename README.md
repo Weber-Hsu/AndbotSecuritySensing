@@ -6,6 +6,7 @@ This repository contains materials and instructions of practicing a partial func
 ### Sensor list
 
 <center>
+
 Item | Amount
 -----|-------
 MQ2 gas sensor | 1
@@ -14,6 +15,7 @@ DHT22 Temperature-Humidity sensor | 1
 Flame sensor | 1
 Dust sensor | 1
 Motion sensor PIR | 1
+
 </center>
 
 **Note: Order of sensor has been defined. Please follow this in any future discussion.**
