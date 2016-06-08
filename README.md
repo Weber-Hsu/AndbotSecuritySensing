@@ -9,12 +9,7 @@ This repository contains materials and instructions of practicing a partial func
 		* Upload code
 	* Sensor information published by using ROS 
 		* Sensor Active List
-		* MQ2 gas sensor
-		* MQ9 CO/Combustible Gas sensor
-		* DHT22 Temperature-Humidity sensor
-		* Flame sensor
-		* Dust sensor
-		* Motion sensor PIR
+		* Topics of each sensor
 	* Specifications and other useful reference of each sensor
 
 ## Hardware configurations
@@ -123,8 +118,6 @@ Sensor |  ID
 	* Topic: /DustDetection
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Unit: mg/m3
-	
-**Be aware of the wire color and pinout when setting up.**
 
 ### Motion sensor PIR
 * Output format: Digital
@@ -145,16 +138,15 @@ Sensor |  ID
 * **This sensor is pretty sensitive to temperature and humidity.**
 * Sensor calibration procedure (written in the code already):
 	1. Before running Calibration:
-	 
-	It must be placed in anywhere with clean air.Tune RL to 5k ohm, which is adjustable resistance on the sensor.
-	
+		* It must be placed in anywhere with clean air.
+		* Tune RL to 5k ohm, which is adjustable resistance on the sensor.
 	2. Calibrating sensor resistance Ro in clean air:
-	 	Pre-defined factor: Ro Clean Air factor 
-		(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
-			Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		* Pre-defined factor: Ro Clean Air factor. 
+			(Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)
+		*	Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
 * Measuring gas
-	Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-	gas (ppm) = 10 ^ ( a * logx + b)
+		* Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+	  * Calculation: gas (ppm) = 10 ^ ( a * logx + b)
 * Reference
 	1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
 	2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
@@ -175,15 +167,14 @@ Sensor |  ID
 **We desided not to use onboard digital output due to its unknown programmed threshold for alarm.**
 * Sensor calibration procedure (written in the code already):
 	1. Before running Calibration: 
-		It must be placed in anywhere with clean air.
-		Tune RL to 5k ohm, which is adjustable resistance on the sensor.
+		* It must be placed in anywhere with clean air.
+		* Tune RL to 5k ohm, which is adjustable resistance on the sensor.
 	2. Calibrating sensor resistance Ro in clean air:
-    	Pre-defined factor: Ro Clean Air factor 
-		Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
-		Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
+		* Pre-defined factor: Ro Clean Air factor. Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
+		* Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
 * Measuring gas
-	Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
-	gas (ppm) = 10 ^ ( a * logx + b)
+	* Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)
+	* Calculation: gas (ppm) = 10 ^ ( a * logx + b)
 * Reference 
 	1. [datasheet](https://solarbotics.com/download.php?file=2274)
 	2. [datasheet](http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf)
@@ -225,6 +216,7 @@ Sensor |  ID
 * Supply voltage: 5-7V
 * Operating temperature: -10-65 Celsius 
 * Output range:
+* **Be aware of the wire color and pinout when setting up.**
 * Reference
 	1. [datasheet](http://www.dfrobot.com/image/data/SEN0144/gp2y1010au_e.pdf)
 	2. [datasheet](http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf)
