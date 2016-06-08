@@ -1,6 +1,6 @@
 # AndbotSecuritySensing
 
-This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details listed below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. 
+This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details described below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. 
 
 ## Hardware configurations
 * Sensor list
@@ -14,10 +14,11 @@ Flame sensor | 1
 Dust sensor | 1
 Motion sensor PIR | 1
 
-**Note: Sequence of sensor has been defined. Please follow this in any future discussion.**
+**Note: Order of sensor has been defined. Please follow this in any future discussion.**
 
 **Please note: Sensor type of the Dust sensing are still on the discussion.**
-**20160608--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
+
+**2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
 - [] Dust sensor is an uncomplete task.
  
@@ -42,20 +43,31 @@ PIR_PIN      |  23 (Digital)
 * Upload Code 
 	1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.) 
 	2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
-		
-	**Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
--------------------------------------------------------------------------------------------------------------
+	
+**Folder " " and " " are my testing project. Please be aware! *Do not* use them.**
+
+--------------------------------------------------------------------------------------------------------
+	
 * Specifications and other useful reference of each sensor
 	* MQ2	
 		* Supply Voltage: 5V
+		* Adjustable resistance RL = 10K ohm
 		* This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.
+		**Preheat time: 24hr**
+
+	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
+	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
+	
+	**There is a adjustable resistor that can be tune for suitable sensitivity.**
+	
+	*This sensor is pretty sensitive to temperature and humidity.*
 		* Reference
 			1. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127)
 			2. [datasheet](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf)
 			3. [datasheet](https://www.pololu.com/file/0J309/MQ2.pdf)
 			4. [example](http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html)
 			5. [example](http://www.powenko.com/wordpress/?p=5688)
-			6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)
+			6. [common sense](http://www.tfci.org.tw/Fc/fc1-6.asp)			
 	* MQ9
 		* Supply Voltage: 5V
 		* Concentration:
@@ -106,7 +118,7 @@ PIR_PIN      |  23 (Digital)
 			3. [example](http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html)
 			4. [dfrobot/](http://www.dfrobot.com/index.php?route=product/product&filter_name=DUST%20SENSOR&product_id=867#.V0K2eXV97aV)
 			5. [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU)
-		* PIR		
+	* PIR		
 	  	* Input type: pyroelectic infrared. detecting infrared signals from moving person or animals.
   		* Output: switching signals
   		  High 3V
@@ -119,23 +131,22 @@ PIR_PIN      |  23 (Digital)
   			* [dfrobot/wiki](http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171)		
 			 
 ==============================================================================================================
-# Sensor information published by using ROS 
 
+# Sensor information published by using ROS 
 ## MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
-	* Topic: /MQ2
+	* Topic: /MQ2LPG; /MQ2CO; MQ2SMOKE
 	* Msg type: float (Lib: std_msgs::Float32)
-	* Adjustable resistance RL = 10K ohm
+	* Output: ppm (Approximation is derived from datasheet; details are the following.)
+		* Sensor calibration:
+		Calibrate sensor resistance Rs: 
+		It must be placed in anywhere with clean air.
+		Tune RL to 5k ohm
+		
+		* Pre-defined factor: Ro Clean Air factor 
 
-	**Preheat time: 24hr**
-
-	**Resistance value of MQ-2 is difference to various kinds and various concentration gases. So,When using this components, sensitivity adjustment is very necessary.**
-	**When accurately measuring, the proper alarm point for the gas detector should be determined after considering the temperature and humidity influence.**
 	
-	**There is a adjustable resistor that can be tune for suitable sensitivity.**
-	
-	*This sensor is pretty sensitive to temperature and humidity.*
 
 ## MQ9 CO/Combustible Gas sensor
 * Output format: Analog (intensity) 
