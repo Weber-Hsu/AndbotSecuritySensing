@@ -3,9 +3,9 @@
 This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details described below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. 
 
 ## Hardware configurations
-* Sensor list
+###Sensor list
 
-Item | amount
+Item | Amount
 -----|-------
 MQ2 gas sensor | 1
 MQ9 CO/Combustible Gas sensor | 1
@@ -20,9 +20,9 @@ Motion sensor PIR | 1
 
 **2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
-- [] Dust sensor is an uncomplete task.
+- [ ] Dust sensor is an uncomplete task.
  
-* Installation on andbot
+###Installation on andbot
 	* metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 	* Pin configuration
 		
@@ -40,7 +40,7 @@ PIR_PIN      |  23 (Digital)
 
 - [x] this is a complete item
 
-* **Upload Code** 
+###Upload Code 
 	1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.) 
 	2. Main code: Please refer to folder AndbotSensingSecurity_ROS_Ver_2. 
 	
@@ -186,14 +186,6 @@ PIR_PIN      |  23 (Digital)
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Value: 0 ~ 1023
 
-## Motion sensor PIR
-* Output format: Digital
-* ROS 
-	* Topic: /MotionDetection
-	* Msg type: Boolean (Lib: std_msgs/Bool)
-	
-	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
-
 ## Dust sensor -- pending. Need further testing.
 * Output format: analog 
 	* Physical meaning: signal can be transfered to Dust Density
@@ -203,6 +195,15 @@ PIR_PIN      |  23 (Digital)
 	* Unit: mg/m3
 	
 	**Be aware of the wire color and pinout when setting up.**
+
+## Motion sensor PIR
+* Output format: Digital
+* ROS 
+	* Topic: /MotionDetection
+	* Msg type: Boolean (Lib: std_msgs/Bool)
+	
+	**Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.**  
+
 
 ==============================================================================================================
 		
