@@ -16,7 +16,7 @@ This repository contains materials and instructions of practicing a partial func
 ### Sensor list
 
 Item | Amount
------|-------
+-----|:------:
 MQ2 gas sensor | 1
 MQ9 CO/Combustible Gas sensor | 1
 DHT22 Temperature-Humidity sensor | 1
@@ -32,7 +32,7 @@ Motion sensor PIR | 1
 
 ==========================================================
  
-### Installation on andbot
+### Installation on Andbot
 * metal1 --> head [MEGA 2560 board](https://www.arduino.cc/en/Main/arduinoBoardMega2560)
 * Pin configuration
 		
@@ -55,8 +55,9 @@ PIR_PIN      |  23 (Digital)
 ==========================================================
 
 ### Upload Code 
-1. Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)
-2. Main code: Please refer to folder MetalHeadVerROSSensingLED. 
+**All programs for running are included in this repository.**
+1. **Please copy all of files in the library folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)**
+2. **Main code: Please refer to folder MetalHeadVerROSSensingLED.** 
 	
 **Folder "Temporary Version" is debugging Version, and folder "MetalHeadPreviousVersion" contains code that simply turn the LED on. Please be aware! *Do not* use them.**
 
@@ -69,11 +70,11 @@ PIR_PIN      |  23 (Digital)
 ### Sensor Active List
 * ROS
 	* Topic: /SensorActiveList
- 	*	Msg type: Int8MultiArray (Lib: std_msgs::Int8MultiArray)
+ 	*	Msg type: UInt8MultiArray (Lib: std_msgs::UInt8MultiArray)
 	* Sensor ID definition: 
 
 Sensor |  ID
--------|-------
+-------|:------:
  MQ2   |   0   
  MQ9   |   1   
  DHT22 |   2   
@@ -89,12 +90,13 @@ Sensor |  ID
 	* Output: ppm 
 		(**Approximation** is derived from datasheet; details are the following.) 
 
-### MQ9 CO/Combustible Gas sensor
+### MQ9 CO/Combustible Gas sensor -- Pending
 * Output format: Analog (intensity) 
 * ROS 
 	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
 	* Msg type: float (Lib: std_msgs::Float32)
-	* Output: ppm (Approximation is derived from datasheet; details are the following.)
+	* Output: ppm (**Approximation** is derived from datasheet; details are the following.)
+	* Pending reason: We believed that this breakout board were designed not properly. There is no adjustable resistance for analog output. 
 		
 
 ### DHT22 Temperature-Humidity sensor
@@ -168,7 +170,6 @@ Sensor |  ID
 * Sensor calibration procedure (written in the code already):
 	1. Before running Calibration: 
 		* It must be placed in anywhere with clean air.
-		* Tune RL to 5k ohm, which is adjustable resistance on the sensor.
 	2. Calibrating sensor resistance Ro in clean air:
 		* Pre-defined factor: Ro Clean Air factor. Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.
 		* Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)
