@@ -52,8 +52,12 @@ PIR_PIN      |  23 (Digital)
 
 ## Sensor information published by using ROS 
 
+**Topic of sensors will be published in every 2 seconds due to some of the sensor requirements. Moreover, there will be 2 more seconds at the beginning for sensor warm up.**
+
 ### Sensor Active List
 * ROS
+	* Topic: /SensorActiveList
+ 	*	Msg type: Int8MultiArray (Lib: std_msgs::Int8MultiArray)
 	* Sensor ID definition: 
 
 Sensor |  ID
@@ -65,10 +69,6 @@ Sensor |  ID
  PM2.5 |   4   
  PIR   |   5
  
- 
- 	*	Topic: /SensorActiveList
- 	*	Msg type: Int8MultiArray (Lib: std_msgs::Int8MultiArray)
- 	
 ### MQ2 gas sensor
 * Output format: Analog (intensity)
 * ROS 
