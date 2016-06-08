@@ -5,34 +5,19 @@ MQ2::MQ2(int pin){
 	mq_pin = pin;
 }
 
-//void MQ2::begin(){
-//	Ro = MQCalibration();
-//	Serial.pring("Ro: ");
-//	Serial.print(Ro);
-//	Serial.println(" kohm");
-//}
-
 float MQ2::readLPG(){
 	float lpg = MQGetGasPercentage(MQRead()/Ro,GAS_LPG);
-	Serial.print("LPG: ");
-	Serial.print(lpg);
-	Serial.println(" ppm");
+
 	return lpg;
 }
 
 float MQ2::readCO(){
 	float CO = MQGetGasPercentage(MQRead()/Ro,GAS_CO);
-	Serial.print("CO: ");
-	Serial.print(CO);
-	Serial.println(" ppm");
 	return CO;
 }
 
 float MQ2::readSMOKE(){
 	float SMOKE = MQGetGasPercentage(MQRead()/Ro,GAS_SMOKE);
-	Serial.print("SMOKE: ");
-	Serial.print(SMOKE);
-	Serial.println(" ppm");
 	return SMOKE;
 }
 
@@ -46,18 +31,14 @@ float MQ2::MQCalibration()
 	int i;
 	float val = 0;
 
-	for (i=0;i<CALIBRATION_SAMPLE_TIMES;i++){
+	for (i=0;i<CALIBRATION_SAMPLES;i++){
 		val += MQResistanceCalculation(analogRead(mq_pin));
 	}
-	val = val / CALIBRATION_SAMPLE_TIMES;
+	val = val / CALIBRATION_SAMPLES;
 
-	val = val / RO_CLEAN_AIR_FACTOR;
+	Ro = val / RO_CLEAN_AIR_FACTOR;
 
-	Serial.print("Ro: ");
-	Serial.print(val);
-	Serial.println(" kohm");
-
-	return val;
+	return Ro;
 }
 
 float MQ2::MQRead()
@@ -65,12 +46,12 @@ float MQ2::MQRead()
 	int i;
 	float rs = 0;
 
-	for (i=0;i<READ_SAMPLE_TIMES;i++) {
+	for (i=0;i<READ_SAMPLES;i++) {
 		rs += MQResistanceCalculation(analogRead(mq_pin));
 		delay(READ_SAMPLE_INTERVAL);
 	}
 
-	rs = rs / READ_SAMPLE_TIMES;
+	rs = rs / READ_SAMPLES;
 
 	return rs;
 }
