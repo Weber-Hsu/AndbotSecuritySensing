@@ -9,7 +9,7 @@
 #include <sensor_msgs/Temperature.h>
 #include <sensor_msgs/RelativeHumidity.h>
 #include <std_msgs/Bool.h>
-#include <std_msgs/UInt8.h>
+#include <std_msgs/UInt8MultiArray.h>
 #include <stdio.h>
 #include <Metro.h>
 
@@ -226,6 +226,18 @@ const unsigned char happy2Frames[20][16] =
 #define Dust_PIN_DO  25    // Sharp Optical Dust sensor diginal
 
 /* Setup variables used in this code*/
+/* ID    |  Sensor
+ * :----:| :-------:
+ *  0    |   MQ2
+ *  1    |   MQ9
+ *  2    |   DHT22
+ *  3    |   Flame
+ *  4    |   PM2.5
+ */
+unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
+bool SensorActiveStatus[5] = {true,true,true,true,true};
+unsigned int SensorTotalNums = sizeof(SensorID)/2;
+
 DHT22 andbotDHT22(DHT22_PIN);
 MQ2 andbotMQ2(MQ2_PIN);
 MQ9 andbotMQ9(MQ9_PIN_AI);
@@ -234,6 +246,7 @@ long publisher_timer ;
 Metro publishPeriod = Metro(2200); // sensor
 Metro LEDMatrixPeriod = Metro(1); // LED Matrix 
 
+std_msgs::UInt8MultiArray SensorActiveList_msgs = {}; // List of sensor configured on andbot
 sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
@@ -264,6 +277,7 @@ bool SensorReadyFlag = false;
 
 /*  define  ROS node and topics */
 ros::NodeHandle metal_head;
+ros::Publisher pub_SensorList("/SensorActiveList", & SensorActiveList_msgs);
 ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
@@ -313,8 +327,24 @@ void setup() {
   //metal_head.advertise(pub_MQ9Smoke_DI);
   metal_head.advertise(pub_Dust);
   metal_head.advertise(pub_Dust_V);
+  metal_head.advertise(pub_SensorList);
 
   //Serial.begin(115200);
+  
+  // calculation for Numbers of Active Sensor
+  unsigned int SensorActiveNums = 0 ;
+  for (int i = 0 ; i < SensorTotalNums; i++)
+  {
+  	if (SensorActiveStatus[i] == true)
+  	{
+  		SensorActiveList_msgs.data[SensorActiveNums] = SensorID[i];
+  		Serial.print(SensorActiveList_msgs.data[SensorActiveNums]);
+  		SensorActiveNums += 1;
+  	}
+  	else;
+  }
+  SensorActiveList_msgs.data = (uint8_t*)malloc(sizeof(uint8_t)* SensorActiveNums );
+  SensorActiveList_msgs.data_length = SensorActiveNums;
 
   /* sensor calibration */
   andbotMQ2.MQCalibration();
@@ -333,6 +363,10 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   noInterrupts();
+  
+  // publish SensorActiveList repeatedly
+  pub_SensorList.publish(&SensorActiveList_msgs);
+  
   //warmup sequence
   if (SensorReadyFlag == false)
   {
