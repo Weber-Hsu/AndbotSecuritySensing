@@ -65,9 +65,9 @@ PIR_PIN      |  23 (Digital)
 
 ----------------------------------------------------------
 
-## Sensor information published by using ROS 
+## Sensor information published using ROS 
 
-**Topic of sensors will be published in every 2 seconds due to some of the sensor requirements. Moreover, there will be 2 more seconds at the beginning for sensor warm up.**
+**Topic of sensors will be published in every 2 seconds due to some of the sensor requirements. Moreover, there will be 2 more seconds at the beginning for sensor warmup.**
 
 ### Sensor Active List
 * ROS
