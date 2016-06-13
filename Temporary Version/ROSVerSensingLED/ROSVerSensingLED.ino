@@ -10,29 +10,32 @@
 #include <Metro.h>
 
 /* Sensor libraries */
-#include <DHT22.h>      // temperauture sensor
+#include <DHT22.h>      // temperature sensor
 #include <MQ2.h> 
 #include <MQ9.h>
 
 /* MEGA 2560 Pin configuration */
-#define DHT22_PIN    22    // DHT22 (temperture & humidity reading) digital input
+#define DHT22_PIN    22    // DHT22 (temperature & humidity reading) digital input
 #define PIR_PIN      23    // PIR (motion sensor) digital input
 #define Flame_PIN    A0    // Flame sensor V2 analog input
 #define MQ2_PIN      A1    // MQ2 (smoke sensor) analog input
 #define MQ9_PIN_AI   A2    // MQ9 (smoke sensor) analog input
-//#define MQ9_PIN_DI   24    // MQ9 (smoke sensor) diginal input
+//#define MQ9_PIN_DI   24    // MQ9 (smoke sensor) digital input
 #define Dust_PIN_AI  A3    // Sharp Optical Dust sensor analog input
-#define Dust_PIN_DO  25    // Sharp Optical Dust sensor diginal
+#define Dust_PIN_DO  25    // Sharp Optical Dust sensor digital
 
 /* Setup variables used in this code*/
+/* ID    |  Sensor
+ * :----:| :-------:
+ *  0    |   MQ2
+ *  1    |   MQ9
+ *  2    |   DHT22
+ *  3    |   Flame
+ *  4    |   PM2.5
+ */
 unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
-unsigned int SensorActiveStatus[5] = {true,true,true,true,true}; 
-#define SensorActiveNums 5
-#define MQ2_ID 0 
-#define MQ9_ID 1
-#define DHT22_ID 2
-#define Flame_ID 3
-#define PM2.5_ID 4 
+bool SensorActiveStatus[5] = {true,true,true,false,false};
+unsigned int SensorTotalNums = sizeof(SensorID)/2;
 
 DHT22 andbotDHT22(DHT22_PIN);
 MQ2 andbotMQ2(MQ2_PIN);
@@ -41,8 +44,8 @@ MQ9 andbotMQ9(MQ9_PIN_AI);
 long publisher_timer ;
 Metro publishPeriod = Metro(2000); 
 
-std_msgs::UInt8MultiArray SensorList_msgs; // List of sensor configured on andbot
-sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
+std_msgs::UInt8MultiArray SensorActiveList_msgs = {}; // List of sensor configured on andbot
+sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperature digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
@@ -58,7 +61,7 @@ std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog inpu
 
 /*  define  ROS node and topics */
 ros::NodeHandle Security;
-ros::Publisher pub_SensorList("/SensorActiveList", & SensorList_msgs);
+ros::Publisher pub_SensorList("/SensorActiveList", & SensorActiveList_msgs);
 ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
@@ -83,6 +86,7 @@ int sleepTime = 9680; // period (per pulse) = 10ms, i.e, sleepingTime = 10ms - 3
 
 Metro warmup = Metro(2000) ; //(msec)
 bool SensorReadyFlag = false;
+
 
 void setup() {
   //initialize mega 2560 for sensor input
@@ -109,41 +113,52 @@ void setup() {
 
   Serial.begin(115200);
 
-  //SensorList_msgs.layout.dim[0].label = "list";
-  SensorList_msgs.layout.dim_length = SensorActiveNums;
-  //SensorList_msgs.layout.dim[0].stride = 1 ;//* SensorActiveNums;
+//  SensorActiveList_msgs.layout.dim = (std_msgs::MultiArrayDimension *)malloc(sizeof(std_msgs::MultiArrayDimension));
+//  SensorActiveList_msgs.layout.dim[0].label = "list";
+//  SensorActiveList_msgs.layout.dim[0].size = SensorActiveNums;
+//  SensorActiveList_msgs.layout.dim[0].stride = 1 * SensorActiveNums;
+//  SensorActiveList_msgs.layout.dim[1].label = "list_h";
+//  SensorActiveList_msgs.layout.dim[1].size = 1 ;
+//  SensorActiveList_msgs.layout.dim[1].stride = 1 ;
+//  SensorActiveList_msgs.layout.dim_length = 1;
+//  SensorActiveList_msgs.layout.data_offset = 0;
+  SensorActiveList_msgs.data = (uint8_t*)malloc(sizeof(uint8_t)* SensorTotalNums );
   Security.advertise(pub_SensorList);
 
-  
-     
-  for (int i=0 ; i < SensorActiveNums; i++)
+  // calculation for Numbers of Active Sensor
+  unsigned int SensorActiveNums = 0 ;
+  for (int i = 0 ; i < SensorTotalNums; i++)
   {
-    if (SensorActiveStatus[i] == true)
-    {
-      SensorList_msgs.data[i] = SensorID[i];
-      //Serial.println("FUCK");
-    }
-    else;
+  	if (SensorActiveStatus[i] == true)
+  	{
+  		SensorActiveList_msgs.data[SensorActiveNums] = SensorID[i];
+  		Serial.print(SensorActiveList_msgs.data[SensorActiveNums]);
+  		SensorActiveNums += 1;
+  	}
+  	else;
   }
-
+  SensorActiveList_msgs.data_length = SensorActiveNums;
 
   /* sensor calibration */
   andbotMQ2.MQCalibration();
   andbotMQ9.MQCalibration();
+
+  //Warming up ...
+  Serial.println("Please wait for warmup ...");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  //Serial.println(SensorList_msgs.data[2]);
-  pub_SensorList.publish(&SensorList_msgs);
+  // publish SensorActiveList repeatedly
+  pub_SensorList.publish(&SensorActiveList_msgs);
+
   //warmup sequence
   if (SensorReadyFlag == false)
   {
     if (warmup.check() == false)
     {
       SensorReadyFlag = false;
-      Serial.println("Please wait ...");
     }
     else
     {
