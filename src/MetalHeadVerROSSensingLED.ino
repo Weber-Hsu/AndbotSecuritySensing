@@ -236,7 +236,7 @@ const unsigned char happy2Frames[20][16] =
  *  4    |   PM2.5
  */
 unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
-bool SensorActiveStatus[5] = {true,false,true,true,true};
+bool SensorActiveStatus[5] = {true,true,true,true,true};
 unsigned int SensorTotalNums = sizeof(SensorID)/2;
 
 DHT22 andbotDHT22(DHT22_PIN);
@@ -341,7 +341,6 @@ void setup() {
   	if (SensorActiveStatus[i] == true)
   	{
   		SensorActiveList_msgs.data[SensorActiveNums] = SensorID[i];
-  		Serial.print(SensorActiveList_msgs.data[SensorActiveNums]);
   		SensorActiveNums += 1;
   	}
   	else;
@@ -359,6 +358,9 @@ void setup() {
   M.set_cur(0,0);
   M.clear();  
   //M.display(hook);
+  
+  //Warming up ...
+  Serial.println("Please wait for warmup ...");
 }
 
 void loop() {
@@ -375,8 +377,7 @@ void loop() {
     if (warmup.check() == false)
     {
       SensorReadyFlag = false;
-      Serial.println("Please wait ...");
-        }
+    }
         else
     {
       SensorReadyFlag = true;
@@ -396,6 +397,12 @@ void loop() {
       case DHT_ERROR_NONE:
         DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
         DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
+        Serial.print("Temperature:");
+        Serial.print(DHT22_Temperature_msgs.temperature);
+        Serial.println("C ");
+        Serial.print("Humidity:");
+        Serial.print(DHT22_Humidity_msgs.relative_humidity);
+        Serial.println("% ");
         pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
         pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
         break;
@@ -438,12 +445,17 @@ void loop() {
 
     /* flame detection */
     Flame_msgs.data = analogRead(Flame_PIN);
+    Serial.print("Flame: ");
+    Serial.println(Flame_msgs.data);
     pub_Flame.publish(&Flame_msgs);
 
     /*Smoke detection MQ2 */
     MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
     MQ2_msgs_CO.data = andbotMQ2.readCO();
     MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
+    Serial.print("MQ2CO: ");
+    Serial.print(MQ2_msgs_CO.data);
+    Serial.println("ppm ");
     pub_MQ2LPG.publish(&MQ2_msgs_LPG);
     pub_MQ2CO.publish(&MQ2_msgs_CO);
     pub_MQ2SMOKE.publish(&MQ2_msgs_SMOKE);
@@ -452,8 +464,8 @@ void loop() {
     MQ9_msgs_LPG.data = andbotMQ9.readLPG();
     MQ9_msgs_CO.data = andbotMQ9.readCO();
     MQ9_msgs_CH4.data = andbotMQ9.readCH4();
-    Serial.print("CH4: ");
-    Serial.println(MQ9_msgs_CH4.data);
+    Serial.print("CO: ");
+    Serial.println(MQ9_msgs_CO.data);
     //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
     pub_MQ9LPG.publish(&MQ9_msgs_LPG);
     pub_MQ9CO.publish(&MQ9_msgs_CO);
@@ -478,11 +490,9 @@ void loop() {
     Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
     pub_Dust.publish(&Dust_msgs);
 
-    /* timer */
-    //publisher_timer = millis() + publishPeriod;
   }
   else;
-  //metal_head.spinOnce();
+  metal_head.spinOnce();
 
   interrupts();
   if (SensorReadyFlag == true)

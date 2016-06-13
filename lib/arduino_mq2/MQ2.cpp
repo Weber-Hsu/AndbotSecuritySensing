@@ -71,5 +71,5 @@ int MQ2::MQGetGasPercentage(float rs_ro_ratio, int gas_id)
 
 int MQ2::MQGetPercentage(float rs_ro_ratio, float *pcurve)
 {
-	return (pow(10,(((log(rs_ro_ratio) - pcurve[1])/pcurve[2]) + pcurve[0])));
+	return (pow(10,( ((log(rs_ro_ratio)-pcurve[1])/pcurve[2]) + pcurve[0])));
 }
