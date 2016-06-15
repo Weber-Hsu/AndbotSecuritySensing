@@ -14,7 +14,7 @@ This repository contains materials and instructions of practicing a partial func
 
 ## Development History
 
-- [x] **2016/06/13--MQ9 have been removed from this project because it has similar features compared to  MQ2. On the way of using MQ2 we select an alarm point 200ppm on CO Curve due to the fact that people usually cannot stand 200ppm of CO within 2~3hrs indoors according to safty level on [this] (http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316) list. Also, the alarm point is before other detectable gases; that is, when readings from MQ2 increases, unknown but dangerous gases would have existed in certain space.**        
+- [x] 2016/06/13--MQ9 have been **removed** from this project because it has similar features compared to  MQ2. On the way of using MQ2 we select an alarm point 200ppm on CO Curve due to the fact that people usually cannot stand 200ppm of CO within 2~3hrs indoors according to safty level on [this] (http://www.nfa.gov.tw/main/Unit.aspx?ID=&MenuID=500&ListID=316) list. Also, the alarm point is before other detectable gases; that is, when readings from MQ2 increases, unknown but dangerous gases would be exist in certain space. We should be aware of the readings before sensor alarming.        
 - [ ] **2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.**
 
 ## Hardware configurations
@@ -61,15 +61,16 @@ PIR_PIN      |  23 (Digital)
 
 1. **Please copy all of files in the "lib" folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)**
 2. **Main code: Please refer to folder MetalHeadVerROSSensingLED.** 
-	
-**Folder "Temporary Version" and "src" are debugging Version, and folder "MetalHeadPreviousVersion" contains program that will only turn the LED on. Please be aware! *Do not* use them.**
-
 3. ROS Usage:
 	1. Open a terminal and type "roscore".
 	2. Open another terminal and type "rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=57600".
 	Note: ttyACM0 refers to your serial port. It might be ttyACM1 or other.
 	3. Open another terminal and type "rostopic list" to check ROS topics are ready.
 	4. Type "rostopic echo /....." to listen to any topic. 
+	
+**Folder "Temporary Version" and "src" are debugging Version, and folder "MetalHeadPreviousVersion" contains program that will only turn the LED on. Please be aware! *Do not* use them.**
+
+
 
 ----------------------------------------------------------
 
