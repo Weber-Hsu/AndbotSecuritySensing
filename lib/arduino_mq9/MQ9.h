@@ -20,13 +20,13 @@ public:
 		float MQCalibration();
 		int MQGetGasPercentage(float rs_ro_ratio, int gas_id);
 private:
-		#define CALIBRATION_SAMPLES 50 // number of samples
-		#define CALIBRATION_SAMPLE_INTERVAL 500 // (ms)
-		#define READ_SAMPLE 5 // number of samples
-		#define READ_SAMPLE_INTERVAL 50 //(ms)
-		#define GAS_LPG 0
-		#define GAS_CO 1
-		#define GAS_CH4 2
+		const int CALIBRATION_SAMPLES =  50; // number of samples
+		const int CALIBRATION_SAMPLE_INTERVAL = 500 ;// (ms)
+		const int READ_SAMPLE  = 5; // number of samples
+		const int READ_SAMPLE_INTERVAL  = 50; //(ms)
+		const int GAS_LPG  = 0;
+		const int GAS_CO  = 1;
+		const int GAS_CH4  = 2;
 
 		int mq_pin;
 		int RL_VALUE = 1; // (k ohm)

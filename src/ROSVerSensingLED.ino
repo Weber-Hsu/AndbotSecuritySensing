@@ -13,6 +13,7 @@
 #include <DHT22.h>      // temperature sensor
 #include <MQ2.h> 
 #include <MQ9.h>
+#include <MOD_PM2dot5.h>
 
 /* MEGA 2560 Pin configuration */
 #define DHT22_PIN    22    // DHT22 (temperature & humidity reading) digital input
@@ -28,18 +29,18 @@
 /* ID    |  Sensor
  * :----:| :-------:
  *  0    |   MQ2
- *  1    |   MQ9
- *  2    |   DHT22
- *  3    |   Flame
- *  4    |   PM2.5
+ *  1    |   DHT22
+ *  2    |   Flame
+ *  3    |   PM2.5
  */
-unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
-bool SensorActiveStatus[5] = {true,true,true,false,false};
+unsigned int SensorID[5] = {0,1,2,3}; // 0: MQ2 ; 1: DHT22; 2: Flame; 3: PM2.5  
+bool SensorActiveStatus[5] = {true,true,true,true};
 unsigned int SensorTotalNums = sizeof(SensorID)/2;
 
 DHT22 andbotDHT22(DHT22_PIN);
 MQ2 andbotMQ2(MQ2_PIN);
 MQ9 andbotMQ9(MQ9_PIN_AI);
+MOD_PM2dot5 andbotMOD_PM2dot5(Dust_PIN_AI,Dust_PIN_DO);
 
 long publisher_timer ;
 Metro publishPeriod = Metro(2000); 
@@ -79,20 +80,15 @@ ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
 /* temporary varibles for Dust sensing*/
 float voMeasured = 0;
 float calcVoltage = 0;
-/* sampling timing of output pulse in Dust sensor (from Datasheet)*/
-int samplingTime = 280; // LED Pulse Width = samplingTime + deltaTime = 320us
-int deltaTime = 40;
-int sleepTime = 9680; // period (per pulse) = 10ms, i.e, sleepingTime = 10ms - 320us = 9680 us
 
 Metro warmup = Metro(2000) ; //(msec)
 bool SensorReadyFlag = false;
-
 
 void setup() {
   //initialize mega 2560 for sensor input
   pinMode(PIR_PIN, INPUT); //setup pin
   //pinMode(MQ9_PIN_DI, INPUT);
-  pinMode(Dust_PIN_DO, OUTPUT);
+  //pinMode(Dust_PIN_DO, OUTPUT);
 
   /* ROS Node configurations */
   Security.initNode();
@@ -142,6 +138,7 @@ void setup() {
   /* sensor calibration */
   andbotMQ2.MQCalibration();
   andbotMQ9.MQCalibration();
+  andbotMOD_PM2dot5.MOD_PM2dot5Calibration();
 
   //Warming up ...
   Serial.println("Please wait for warmup ...");
@@ -238,28 +235,30 @@ void loop() {
     pub_MQ9CH4.publish(&MQ9_msgs_CH4);
     //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
 
-    /* Dust detection */
-    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
-    delayMicroseconds(samplingTime);
+  }
+  else;
+   /* Dust detection */
+//    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
+//    delayMicroseconds(samplingTime);
+//
+//    voMeasured = analogRead(Dust_PIN_AI);
+//
+//    delayMicroseconds(deltaTime);
+//    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
+//    delayMicroseconds(sleepTime);
 
-    voMeasured = analogRead(Dust_PIN_AI);
+//    calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
 
-    delayMicroseconds(deltaTime);
-    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
-    delayMicroseconds(sleepTime);
-
-    calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
-    Dust_msgs_VoMeasured.data = calcVoltage;
-    Serial.print("Vs: ");
+    Dust_msgs_VoMeasured.data = andbotMOD_PM2dot5.MOD_PM2dot5Read();
+    Serial.print("Vo: ");
     Serial.println(Dust_msgs_VoMeasured.data);
     pub_Dust_V.publish(&Dust_msgs_VoMeasured);
 
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
     //Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
-    Dust_msgs.data = 0.1724 * (calcVoltage - 0.6) * 1000.0; // this equation is appoximately calculated by using typical value shown in its datasheet
+    //Dust_msgs.data = 0.1724 * (calcVoltage - 0.6) * 1000.0; // this equation is appoximately calculated by using typical value shown in its datasheet
+    Dust_msgs.data = andbotMOD_PM2dot5.MOD_PM2dot5GetConcentration(DHT22_Humidity_msgs.relative_humidity);
     pub_Dust.publish(&Dust_msgs);
-  }
-  else;
   Security.spinOnce();
 
 }
