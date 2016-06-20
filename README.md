@@ -23,15 +23,17 @@ This repository contains materials and instructions of practicing a partial func
 Item | Amount
 -----|:------:
 MQ2 gas sensor | 1
-MQ9 CO/Combustible Gas sensor | 1
 DHT22 Temperature-Humidity sensor | 1
 Flame sensor | 1
 Dust sensor | 1
 Motion sensor PIR | 1
 
+**Note: MQ9 has been removed from the list.**
 **Note: Order of sensor has been defined. Please follow this in any future discussion.**
 
 **Please note: Sensor type of the Dust sensing are still on the discussion.**
+
+
 
 ==========================================================
  
@@ -44,7 +46,6 @@ Motion sensor PIR | 1
 Input/Output |  Pins
 -------------|-------------
 MQ2_PIN      |  A1 (Analog)
-MQ9_PIN      |  A2 (Analog)
 DHT22_PIN    |  22 (Digital) 
 Flame_PIN    |  A0 (Analog)   
 Dust_PIN_AI  |  A3 (Analog)   
@@ -104,7 +105,7 @@ Sensor |  ID
 ### MQ9 CO/Combustible Gas sensor -- **Cancelled**
 * Output format: Analog (intensity) 
 * ROS 
-	* Topic: /MQ9LPG; /MQ9CO; /MQ9CH4;
+	* Topic: 
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm (**Approximation** is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.)
 	* Pending reason: We believe that this breakout board were designed not properly. There is no adjustable resistance for analog output. 
