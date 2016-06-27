@@ -1,3 +1,4 @@
+
 /***************************************************************************** 
 *                Copyright:  ChengDu Geeker Tech. Co., Ltd. 
 * File name:      rgb_matrix.cpp 
@@ -16,7 +17,7 @@ extern "C" {
   #include <string.h>
   #undef abs
 }
-#include "rgb_matrix.h"
+#include "../custom_rgb_matrix/rgb_matrix.h"
 
 
 /*************************************************************************                    
