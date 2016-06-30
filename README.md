@@ -124,6 +124,7 @@ Sensor |  ID
 	* Topic: /FlameDetection
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Value: 0 ~ 1023
+	* alarm point: greater than 100
 
 ### Dust sensor -- pending. 
 * Output format: analog 
