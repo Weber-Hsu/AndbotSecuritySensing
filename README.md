@@ -100,7 +100,7 @@ Sensor |  ID
 	* Msg type: float (Lib: std_msgs::Float32)
 	* Output: ppm 
 		(**Approximation** is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.)
-	* Alarm point: CO: 200 ppm 
+	* Alarm point: CO: over 200 ppm 
 
 ### MQ9 CO/Combustible Gas sensor -- **Cancelled**
 * Output format: Analog (intensity) 
