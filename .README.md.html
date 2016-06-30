@@ -1,0 +1,1005 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>/home/weberhsu/git/AndbotSecuritySensing/.README.md.html</title>
+
+
+<style type="text/css">
+body {
+	color: #333;
+	font: 13px/1.4 "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	background: transparent;
+	color: #4183c4;
+	text-decoration: none;
+}
+
+a:active,
+a:hover {
+	outline: 0 none;
+	text-decoration: underline;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+b,
+strong {
+	font-weight: bold;
+}
+
+dfn {
+	font-style: italic;
+}
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+mark {
+	background: #ff0;
+	color: #000;
+}
+small {
+	font-size: 80%;
+}
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.5em;
+}
+sub {
+	bottom: -0.25em;
+}
+img {
+	border: 0 none;
+}
+svg:not(:root) {
+	overflow: hidden;
+}
+figure {
+	margin: 1em 40px;
+}
+hr {
+	box-sizing: content-box;
+	height: 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace,monospace;
+	font-size: 1em;
+}
+
+pre {
+	overflow: auto;
+	font: 12px Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.markdown-body {
+	padding: 30px;
+	font-size: 16px;
+	line-height: 1.6;
+	word-wrap: break-word;
+}
+
+.markdown-body>*:first-child {
+	margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.markdown-body .absent {
+	color: #c00;
+}
+
+.markdown-body .anchor {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	display: block;
+	padding-right: 6px;
+	padding-left: 30px;
+	margin-left: -30px;
+}
+
+.markdown-body .anchor:focus {
+	outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	position: relative;
+	margin-top: 1em;
+	margin-bottom: 16px;
+	font-weight: bold;
+	line-height: 1.4;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+	display: none;
+	color: #000;
+	vertical-align: middle;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+	padding-left: 8px;
+	margin-left: -30px;
+	line-height: 1;
+	text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+	display: inline-block;
+}
+
+.markdown-body h1 tt,
+.markdown-body h1 code,
+.markdown-body h2 tt,
+.markdown-body h2 code,
+.markdown-body h3 tt,
+.markdown-body h3 code,
+.markdown-body h4 tt,
+.markdown-body h4 code,
+.markdown-body h5 tt,
+.markdown-body h5 code,
+.markdown-body h6 tt,
+.markdown-body h6 code {
+	font-size: inherit;
+}
+
+.markdown-body h1 {
+	padding-bottom: 0.3em;
+	font-size: 2.25em;
+	line-height: 1.2;
+	border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.75em;
+	line-height: 1.225;
+	border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+	font-size: 1.5em;
+	line-height: 1.43;
+}
+
+.markdown-body h4 {
+	font-size: 1.25em;
+}
+
+.markdown-body h5 {
+	font-size: 1em;
+}
+
+.markdown-body h6 {
+	font-size: 1em;
+	color: #777;
+}
+
+.markdown-body p,.markdown-body blockquote,
+.markdown-body ul,.markdown-body ol,
+.markdown-body dl,.markdown-body table,
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.markdown-body hr {
+	height: 4px;
+	padding: 0;
+	margin: 16px 0;
+	background-color: #e7e7e7;
+	border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 2em;
+}
+
+.markdown-body ul.no-list,
+.markdown-body ol.no-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body li>p {
+	margin-top: 16px;
+}
+
+.markdown-body dl {
+	padding: 0;
+}
+
+.markdown-body dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.markdown-body dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+	padding: 0 15px;
+	color: #777;
+	border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+	word-break: normal;
+	word-break: keep-all;
+}
+
+.markdown-body table th {
+	font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 6px 13px;
+	border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+	background-color: #fff;
+	border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: #f8f8f8;
+}
+
+.markdown-body img {
+	max-width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.markdown-body span.frame {
+	display: block;
+	overflow: hidden;
+}
+
+.markdown-body span.frame>span {
+	display: block;
+	float: left;
+	width: auto;
+	padding: 7px;
+	margin: 13px 0 0;
+	overflow: hidden;
+	border: 1px solid #ddd;
+}
+
+.markdown-body span.frame span img {
+	display: block;
+	float: left;
+}
+
+.markdown-body span.frame span span {
+	display: block;
+	padding: 5px 0 0;
+	clear: both;
+	color: #333;
+}
+
+.markdown-body span.align-center {
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+
+.markdown-body span.align-center>span {
+	display: block;
+	margin: 13px auto 0;
+	overflow: hidden;
+	text-align: center;
+}
+
+.markdown-body span.align-center span img {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.markdown-body span.align-right {
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+
+.markdown-body span.align-right>span {
+	display: block;
+	margin: 13px 0 0;
+	overflow: hidden;
+	text-align: right;
+}
+
+.markdown-body span.align-right span img {
+	margin: 0;
+	text-align: right;
+}
+
+.markdown-body span.float-left {
+	display: block;
+	float: left;
+	margin-right: 13px;
+	overflow: hidden;
+}
+
+.markdown-body span.float-left span {
+	margin: 13px 0 0;
+}
+
+.markdown-body span.float-right {
+	display: block;
+	float: right;
+	margin-left: 13px;
+	overflow: hidden;
+}
+
+.markdown-body span.float-right>span {
+	display: block;
+	margin: 13px auto 0;
+	overflow: hidden;
+	text-align: right;
+}
+
+.markdown-body code,.markdown-body tt {
+	padding: 0;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(0,0,0,0.04);
+	border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after,
+.markdown-body tt:before,
+.markdown-body tt:after {
+	letter-spacing: -0.2em;
+	content: "\00a0";
+}
+
+.markdown-body code br,
+.markdown-body tt br {
+	display: none;
+}
+
+.markdown-body del code {
+	text-decoration: inherit;
+}
+
+.markdown-body pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0;
+}
+
+.markdown-body .highlight {
+	margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #f7f7f7;
+	border-radius: 3px;
+}
+
+.markdown-body .highlight pre {
+	margin-bottom: 0;
+	word-break: normal;
+}
+
+.markdown-body pre {
+	word-wrap: normal;
+}
+
+.markdown-body pre code,
+.markdown-body pre tt {
+	display: inline;
+	max-width: initial;
+	padding: 0;
+	margin: 0;
+	overflow: initial;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after,
+.markdown-body pre tt:before,
+.markdown-body pre tt:after {
+	content: normal;
+}
+
+.highlight .pl-coc,
+.highlight .pl-entl,
+.highlight .pl-entm,
+.highlight .pl-eoa,
+.highlight .pl-mai .pl-sf,
+.highlight .pl-mm,
+.highlight .pl-pdv,
+.highlight .pl-sc,
+.highlight .pl-som,
+.highlight .pl-sr,
+.highlight .pl-v,
+.highlight .pl-vpf {
+	color: #0086b3;
+}
+.highlight .pl-eoac,
+.highlight .pl-mdht,
+.highlight .pl-mi1,
+.highlight .pl-mri,
+.highlight .pl-va,
+.highlight .pl-vpu {
+	color: #008080;
+}
+.highlight .pl-c,
+.highlight .pl-pdc {
+	color: #b4b7b4;
+	font-style: italic;
+}
+.highlight .pl-k,
+.highlight .pl-ko,
+.highlight .pl-kolp,
+.highlight .pl-mc,
+.highlight .pl-mr,
+.highlight .pl-ms,
+.highlight .pl-s,
+.highlight .pl-sok,
+.highlight .pl-st {
+	color: #6e5494;
+}
+.highlight .pl-ef,
+.highlight .pl-enf,
+.highlight .pl-enm,
+.highlight .pl-entc,
+.highlight .pl-eoi,
+.highlight .pl-sf,
+.highlight .pl-smc {
+	color: #d12089;
+}
+.highlight .pl-ens,
+.highlight .pl-eoai,
+.highlight .pl-kos,
+.highlight .pl-mh .pl-pdh,
+.highlight .pl-mp,
+.highlight .pl-pde,
+.highlight .pl-stp {
+	color: #458;
+}
+.highlight .pl-enti {
+	color: #d12089;
+	font-weight: bold;
+}
+.highlight .pl-cce,
+.highlight .pl-enc,
+.highlight .pl-kou,
+.highlight .pl-mq {
+	color: #f93;
+}
+.highlight .pl-mp1 .pl-sf {
+	color: #458;
+	font-weight: bold;
+}
+.highlight .pl-cos,
+.highlight .pl-ent,
+.highlight .pl-md,
+.highlight .pl-mdhf,
+.highlight .pl-ml,
+.highlight .pl-pdc1,
+.highlight .pl-pds,
+.highlight .pl-s1,
+.highlight .pl-scp,
+.highlight .pl-sol {
+	color: #df5000;
+}
+.highlight .pl-c1,
+.highlight .pl-cn,
+.highlight .pl-pse,
+.highlight .pl-pse .pl-s2,
+.highlight .pl-vi {
+	color: #a31515;
+}
+.highlight .pl-mb,
+.highlight .pl-pdb {
+	color: #df5000;
+	font-weight: bold;
+}
+.highlight .pl-mi,
+.highlight .pl-pdi {
+	color: #6e5494;
+	font-style: italic;
+}
+.highlight .pl-ms1 {
+	background-color: #f5f5f5;
+}
+.highlight .pl-mdh,
+.highlight .pl-mdi {
+	font-weight: bold;
+}
+.highlight .pl-mdr {
+	color: #0086b3;
+	font-weight: bold;
+}
+.highlight .pl-s2 {
+	color: #333;
+}
+.highlight .pl-ii {
+	background-color: #df5000;
+	color: #fff;
+}
+.highlight .pl-ib {
+	background-color: #f93;
+}
+.highlight .pl-id {
+	background-color: #a31515;
+	color: #fff;
+}
+.highlight .pl-iu {
+	background-color: #b4b7b4;
+}
+.highlight .pl-mo {
+	color: #969896;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<h1> <a id="andbotsecuritysensing" class="anchor" href="#andbotsecuritysensing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AndbotSecuritySensing</h1> 
+<p>This repository contains materials and instructions of practicing a partial function, security sensing, on Andbot. Details described below are divided into two section--hardware configurations and ROS implementation for upper level application. Other devices, Rugby, for example, can also use the following sensing methods. </p> 
+<ul> 
+ <li>Table of contents 
+  <ul> 
+   <li>Hardware configurations 
+    <ul> 
+     <li>Sensor list</li> 
+     <li>Installation on Andbot</li> 
+     <li>Upload code</li> 
+    </ul> </li> 
+   <li>Sensor information published by using ROS 
+    <ul> 
+     <li>Sensor Active List</li> 
+     <li>Topics of each sensor</li> 
+    </ul> </li> 
+   <li>Specifications and other useful reference of each sensor</li> 
+  </ul> </li> 
+</ul> 
+<h2> <a id="development-history" class="anchor" href="#development-history" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Development History</h2> 
+<ul> 
+ <li>[x] 2016/06/13--MQ9 have been <strong>removed</strong> from this project because it has similar features compared to MQ2. On the way of using MQ2 we select an alarm point 200ppm on CO Curve due to the fact that people usually cannot stand 200ppm of CO within 2~3hrs indoors according to safty level on <a href="http://www.nfa.gov.tw/main/Unit.aspx?ID=&amp;MenuID=500&amp;ListID=316">this</a> list. Also, the alarm point is before other detectable gases; that is, when readings from MQ2 increases, unknown but dangerous gases would be exist in certain space. We should be aware of the readings before sensor alarming.<br /> </li> 
+ <li>[ ] <strong>2016/06/08--I have acquired two different type of Dust sensing earlier today, and they are on the testing schedule.</strong> </li> 
+</ul> 
+<h2> <a id="hardware-configurations" class="anchor" href="#hardware-configurations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hardware configurations</h2> 
+<h3> <a id="sensor-list" class="anchor" href="#sensor-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sensor list</h3> 
+<table> 
+ <thead> 
+  <tr> 
+   <th>Item</th> 
+   <th align="center">Amount</th> 
+  </tr> 
+ </thead> 
+ <tbody> 
+  <tr> 
+   <td>MQ2 gas sensor</td> 
+   <td align="center">1</td> 
+  </tr> 
+  <tr> 
+   <td>DHT22 Temperature-Humidity sensor</td> 
+   <td align="center">1</td> 
+  </tr> 
+  <tr> 
+   <td>Flame sensor</td> 
+   <td align="center">1</td> 
+  </tr> 
+  <tr> 
+   <td>Dust sensor</td> 
+   <td align="center">1</td> 
+  </tr> 
+  <tr> 
+   <td>Motion sensor PIR</td> 
+   <td align="center">1</td> 
+  </tr> 
+ </tbody> 
+</table> 
+<p><strong>Note: MQ9 has been removed from the list.</strong> <strong>Note: Order of sensor has been defined. Please follow this in any future discussion.</strong></p> 
+<p><strong>Please note: Sensor type of the Dust sensing are still on the discussion.</strong></p> 
+<h1></h1> 
+<h3> <a id="installation-on-andbot" class="anchor" href="#installation-on-andbot" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation on Andbot</h3> 
+<ul> 
+ <li>metal1 --&gt; head <a href="https://www.arduino.cc/en/Main/arduinoBoardMega2560">MEGA 2560 board</a> </li> 
+ <li>Pin configuration</li> 
+</ul> 
+<p><strong>Please be carefull while setting up hardwares, and check twice before turning power on.</strong></p> 
+<table> 
+ <thead> 
+  <tr> 
+   <th>Input/Output</th> 
+   <th>Pins</th> 
+  </tr> 
+ </thead> 
+ <tbody> 
+  <tr> 
+   <td>MQ2_PIN</td> 
+   <td>A1 (Analog)</td> 
+  </tr> 
+  <tr> 
+   <td>DHT22_PIN</td> 
+   <td>22 (Digital)</td> 
+  </tr> 
+  <tr> 
+   <td>Flame_PIN</td> 
+   <td>A0 (Analog)</td> 
+  </tr> 
+  <tr> 
+   <td>Dust_PIN_AI</td> 
+   <td>A3 (Analog)</td> 
+  </tr> 
+  <tr> 
+   <td>Dust_PIN_DO</td> 
+   <td>25 (Digital)</td> 
+  </tr> 
+  <tr> 
+   <td>PIR_PIN</td> 
+   <td>23 (Digital)</td> 
+  </tr> 
+ </tbody> 
+</table> 
+<p><strong>Please refer to the section--Specifications and other useful reference of each sensor if you encounters any problem.</strong></p> 
+<h1></h1> 
+<h3> <a id="upload-code" class="anchor" href="#upload-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload Code</h3> 
+<p><strong>All programs are included in this repository.</strong></p> 
+<ol> 
+ <li><strong>Please copy all of files in the &quot;lib&quot; folder to Arduino/library. (This is critical because it cannot be complie without those libraries.)</strong></li> 
+ <li> <strong>Main code: Please refer to folder MetalHeadVerROSSensingLED.</strong> </li> 
+ <li>ROS Usage: 
+  <ol> 
+   <li>Open a terminal and type &quot;roscore&quot;.</li> 
+   <li>Open another terminal and type &quot;rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=57600&quot;. Note: ttyACM0 refers to your serial port. It might be ttyACM1 or other.</li> 
+   <li>Open another terminal and type &quot;rostopic list&quot; to check ROS topics are ready.</li> 
+   <li>Type &quot;rostopic echo /.....&quot; to listen to any topic. </li> 
+  </ol> </li> 
+</ol> 
+<p><strong>Folder &quot;Temporary Version&quot; and &quot;src&quot; are debugging Version, and folder &quot;MetalHeadPreviousVersion&quot; contains program that will only turn the LED on. Please be aware! <em>Do not</em> use them.</strong></p> 
+<hr /> 
+<h2> <a id="sensor-information-published-using-ros" class="anchor" href="#sensor-information-published-using-ros" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sensor information published using ROS</h2> 
+<p><strong>Topic of sensors will be published in every 2 seconds due to some of the sensor requirements. Moreover, there will be 2 more seconds at the beginning for sensor warmup.</strong></p> 
+<h3> <a id="sensor-active-list" class="anchor" href="#sensor-active-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sensor Active List</h3> 
+<ul> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /SensorActiveList</li> 
+   <li> Msg type: UInt8MultiArray (Lib: std_msgs::UInt8MultiArray)</li> 
+   <li>Sensor ID definition: </li> 
+  </ul> </li> 
+</ul> 
+<table> 
+ <thead> 
+  <tr> 
+   <th>Sensor</th> 
+   <th align="center">ID</th> 
+  </tr> 
+ </thead> 
+ <tbody> 
+  <tr> 
+   <td>MQ2</td> 
+   <td align="center">0</td> 
+  </tr> 
+  <tr> 
+   <td>DHT22</td> 
+   <td align="center">1</td> 
+  </tr> 
+  <tr> 
+   <td>Flame</td> 
+   <td align="center">2</td> 
+  </tr> 
+  <tr> 
+   <td>PM2.5</td> 
+   <td align="center">3</td> 
+  </tr> 
+  <tr> 
+   <td>PIR</td> 
+   <td align="center">4</td> 
+  </tr> 
+ </tbody> 
+</table> 
+<h3> <a id="mq2-gas-sensor" class="anchor" href="#mq2-gas-sensor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ2 gas sensor</h3> 
+<ul> 
+ <li>Output format: Analog (intensity)</li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /MQ2CO</li> 
+   <li>Msg type: float (Lib: std_msgs::Float32)</li> 
+   <li>Output: ppm (<strong>Approximation</strong> is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.)</li> 
+   <li>Alarm point: CO: 200 ppm </li> 
+  </ul> </li> 
+</ul> 
+<h3> <a id="mq9-cocombustible-gas-sensor----cancelled" class="anchor" href="#mq9-cocombustible-gas-sensor----cancelled" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ9 CO/Combustible Gas sensor -- <strong>Cancelled</strong> </h3> 
+<ul> 
+ <li>Output format: Analog (intensity) </li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: </li> 
+   <li>Msg type: float (Lib: std_msgs::Float32)</li> 
+   <li>Output: ppm (<strong>Approximation</strong> is derived from datasheet; please refer to section--Specifications and other useful reference of each sensor for details.)</li> 
+   <li>Pending reason: We believe that this breakout board were designed not properly. There is no adjustable resistance for analog output. </li> 
+  </ul> </li> 
+</ul> 
+<h3> <a id="dht22-temperature-humidity-sensor" class="anchor" href="#dht22-temperature-humidity-sensor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DHT22 Temperature-Humidity sensor</h3> 
+<ul> 
+ <li>Output format: Digital</li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /CurTemperature</li> 
+   <li>Topic: /CurHumidity</li> 
+   <li>Msg type: double (Lib: sensor_msgs/Temperature &amp; sensor_msgs/RelativeHumidity)</li> 
+  </ul> </li> 
+</ul> 
+<h3> <a id="flame-sensor" class="anchor" href="#flame-sensor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Flame sensor</h3> 
+<ul> 
+ <li>Output format: Analog (intensity)</li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /FlameDetection</li> 
+   <li>Msg type: float (Lib: std_msgs::Float32)</li> 
+   <li>Value: 0 ~ 1023</li> 
+  </ul> </li> 
+</ul> 
+<h3> <a id="dust-sensor----pending" class="anchor" href="#dust-sensor----pending" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dust sensor -- pending.</h3> 
+<ul> 
+ <li>Output format: analog 
+  <ul> 
+   <li>Physical meaning: signal can be transfered to Dust Density</li> 
+  </ul> </li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /PM2dot5Detection</li> 
+   <li>Msg type: float (Lib: std_msgs::Float32)</li> 
+   <li>Unit: ug/m3</li> 
+  </ul> </li> 
+</ul> 
+<h3> <a id="motion-sensor-pir" class="anchor" href="#motion-sensor-pir" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Motion sensor PIR</h3> 
+<ul> 
+ <li>Output format: Digital</li> 
+ <li>ROS 
+  <ul> 
+   <li>Topic: /MotionDetection</li> 
+   <li>Msg type: Boolean (Lib: std_msgs/Bool)</li> 
+  </ul> </li> 
+</ul> 
+<p><strong>Pay attention: Once the IR signal disappears, the output pin will output low level delay roughly 2.3~3 seconds.</strong> </p> 
+<hr /> 
+<h3> <a id="specifications-and-other-useful-reference-of-each-sensor" class="anchor" href="#specifications-and-other-useful-reference-of-each-sensor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Specifications and other useful reference of each sensor</h3> 
+<h4> <a id="mq2" class="anchor" href="#mq2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ2</h4> 
+<ul> 
+ <li>Supply Voltage: 5V</li> 
+ <li>Adjustable resistance RL = 10K ohm</li> 
+ <li>This sensor is suitable for detecting LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke.</li> 
+ <li><strong>Preheat time: 24hr</strong></li> 
+ <li><strong>This sensor is pretty sensitive to temperature and humidity.</strong></li> 
+ <li>Sensor calibration procedure (written in the code already): 
+  <ol> 
+   <li>Before running Calibration: 
+    <ul> 
+     <li>It must be placed in anywhere with clean air.</li> 
+     <li>Tune RL to 5k ohm, which is adjustable resistance on the sensor.</li> 
+    </ul> </li> 
+   <li>Calibrating sensor resistance Ro in clean air: 
+    <ul> 
+     <li>Pre-defined factor: Ro Clean Air factor. (Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.)</li> 
+     <li> Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)</li> 
+    </ul> </li> 
+  </ol> </li> 
+ <li>Measuring gas * Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b) 
+  <ul> 
+   <li>Calculation: gas (ppm) = 10 ^ ( a * logx + b)</li> 
+  </ul> </li> 
+ <li>Reference 
+  <ol> 
+   <li><a href="http://www.dfrobot.com/wiki/index.php?title=Analog_Gas_Sensor_SKU:SEN0127">dfrobot/wiki</a></li> 
+   <li> <a href="https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf">datasheet</a>,<a href="https://www.pololu.com/file/0J309/MQ2.pdf">datasheet</a> </li> 
+   <li> <a href="http://vanceance.blogspot.tw/2013/04/gas-sensor-with-arduino.html">example</a>,<a href="http://www.powenko.com/wordpress/?p=5688">example</a> </li> 
+   <li> <a href="http://www.tfci.org.tw/Fc/fc1-6.asp">common sense</a><br /> </li> 
+  </ol> </li> 
+</ul> 
+<h4> <a id="mq9----cancelled" class="anchor" href="#mq9----cancelled" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ9 -- <strong>Cancelled</strong> </h4> 
+<ul> 
+ <li>Supply Voltage: 5V</li> 
+ <li>Concentration: 
+  <ul> 
+   <li>10-1000ppm CO</li> 
+   <li>100-10000ppm combustible gas</li> 
+  </ul> </li> 
+ <li>Good sensitivity to CO/Combustible gas</li> 
+ <li>High sensitivity to Methane, Propane and CO</li> 
+ <li><strong>Preheat time: 48hr</strong></li> 
+ <li> <strong>This sensor is pretty sensitive to temperature and humidity.</strong> <strong>We desided not to use onboard digital output due to its unknown programmed threshold for alarm.</strong> </li> 
+ <li>Sensor calibration procedure (written in the code already): 
+  <ol> 
+   <li>Before running Calibration: 
+    <ul> 
+     <li>It must be placed in anywhere with clean air.</li> 
+    </ul> </li> 
+   <li>Calibrating sensor resistance Ro in clean air: 
+    <ul> 
+     <li>Pre-defined factor: Ro Clean Air factor. Rs in clean air under given temperature and humidity is a constant，which is the “initial” resistance of the sensor named Ro.</li> 
+     <li>Ro = Rs (sensor reading average in 500 samples) / Rfactor (derived from the datasheet)</li> 
+    </ul> </li> 
+  </ol> </li> 
+ <li>Measuring gas 
+  <ul> 
+   <li>Pre-defined factor: LPGCurve; COCurve; SMOKECurve. (logy = a * logx + b)</li> 
+   <li>Calculation: gas (ppm) = 10 ^ ( a * logx + b)</li> 
+  </ul> </li> 
+ <li>Reference 
+  <ol> 
+   <li> <a href="https://solarbotics.com/download.php?file=2274">datasheet</a>,<a href="http://www.dfrobot.com/image/data/SEN0134/SEN0134_MQ-9.pdf">datasheet</a> </li> 
+   <li> <a href="http://www.dfrobot.com/wiki/index.php/Analog_Gas_Sensor(MQ9)_SKU:SEN0134">dfrobot/wiki</a>, <a href="http://www.powenko.com/wordpress/?p=5688">example</a> </li> 
+   <li> <a href="http://www.tfci.org.tw/Fc/fc1-6.asp">common sense</a>, <a href="http://www.nfa.gov.tw/main/Unit.aspx?ID=&amp;MenuID=500&amp;ListID=316">CO safty level</a> </li> 
+   <li> <strong><a href="http://www.sunrom.com/p/combustible-gas-co-gas-sensor-mq9">schematic</a></strong><br /> </li> 
+  </ol> </li> 
+</ul> 
+<h4> <a id="dht22" class="anchor" href="#dht22" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DHT22</h4> 
+<ul> 
+ <li>Output: alibrated digital signal</li> 
+ <li>Power: 3.3~5.5V</li> 
+ <li>Sensing range: 
+  <ul> 
+   <li>Humidity: 0-100% RH</li> 
+   <li>Temperature: -40 ~ 80 Celsius</li> 
+  </ul> </li> 
+ <li>Resolution: 
+  <ul> 
+   <li>Humidity: 0.1% RH;</li> 
+   <li>Temperature: 0.1 Celsius</li> 
+  </ul> </li> 
+ <li>Accuracy: 
+  <ul> 
+   <li>Humidity: +-2% RH (Max+-5%RH)</li> 
+   <li>Temperature: +-0.5 Celsius</li> 
+  </ul> </li> 
+ <li>Reference 
+  <ol> 
+   <li><a href="https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf">Datasheet</a></li> 
+   <li> <a href="http://www.dfrobot.com/wiki/index.php/DHT22_Temperature_and_humidity_module_SKU:SEN0137#More">dfrobot/wiki</a> </li> 
+  </ol> </li> 
+</ul> 
+<h4> <a id="flame" class="anchor" href="#flame" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FLAME</h4> 
+<ul> 
+ <li>Supply Voltage: 3.3V to 5V</li> 
+ <li>Detection range: 20cm (4.8V) ~ 100cm (1V)</li> 
+ <li>Rang of Spectral Bandwidth : 760nm to 1100nm</li> 
+ <li>Responsive time : 15us</li> 
+ <li>Interface: Analog</li> 
+ <li><strong>The flame sensor's operating temperature is -25 degrees Celsius to 85 degrees Celsius, in the course of the flame it should be noted that the probe distance from the flame should not be too close inorder to avoid damage.</strong></li> 
+ <li>Reference 
+  <ol> 
+   <li> <a href="http://www.dfrobot.com/index.php?route=product/product&amp;product_id=195#.V0KYAHV97aV">dfrobot/product</a>,<a href="http://www.dfrobot.com/wiki/index.php/Flame_sensor_SKU:_DFR0076">dfrobot/wiki</a> </li> 
+   <li><a href="http://www.dfrobot.com/image/data/DFR0076/V2.0/Flame%20Sensor%20SCH.pdf">schemetics</a></li> 
+   <li><a href="https://github.com/Arduinolibrary/Source/blob/master/YG1006ataSheet.pdf?raw=true">datasheet</a></li> 
+  </ol> </li> 
+</ul> 
+<h4> <a id="pm25" class="anchor" href="#pm25" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PM2.5</h4> 
+<ul> 
+ <li>Supply voltage: 5-7V</li> 
+ <li>Operating temperature: -10-65 Celsius </li> 
+ <li>Output range:</li> 
+ <li><strong>Be aware of the wire color and pinout when setting up.</strong></li> 
+ <li>Reference 
+  <ol> 
+   <li><a href="http://www.dfrobot.com/image/data/SEN0144/gp2y1010au_e.pdf">datasheet</a></li> 
+   <li><a href="http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y1010au_appl_e.pdf">datasheet</a></li> 
+   <li><a href="http://lafudo.blogspot.tw/2013/12/arduino-gp2y1010au0fpm25.html">example</a></li> 
+   <li><a href="http://www.dfrobot.com/index.php?route=product/product&amp;filter_name=DUST%20SENSOR&amp;product_id=867#.V0K2eXV97aV">dfrobot/</a></li> 
+   <li><a href="http://www.dfrobot.com/wiki/index.php/Sharp_GP2Y1010AU">dfrobot/wiki</a></li> 
+   <li><a href="http://taqm.epa.gov.tw/taqm/tw/fpmi.htm">safty level</a></li> 
+  </ol> </li> 
+</ul> 
+<h4> <a id="pir" class="anchor" href="#pir" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PIR</h4> 
+<ul> 
+ <li>Input type: pyroelectic infrared. detecting infrared signals from moving person or animals.</li> 
+ <li>Output: switching signals High 3V Low 0V</li> 
+ <li>Power input: 3.3~5 V (It should not be bigger than 6V)</li> 
+ <li>Applications: body movements</li> 
+ <li>Working current: 15uA</li> 
+ <li>Detection distance: 7 m</li> 
+ <li>Reference 
+  <ul> 
+   <li> <a href="http://www.dfrobot.com/wiki/index.php/PIR_Motion_Sensor_V1.0_SKU:SEN0171">dfrobot/wiki</a><br /> </li> 
+  </ul> </li> 
+</ul>
+</body>
+</html>

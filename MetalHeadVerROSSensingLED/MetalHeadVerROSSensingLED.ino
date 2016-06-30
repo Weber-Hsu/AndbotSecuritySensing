@@ -21,6 +21,7 @@
 #include <DHT22.h>      // temperauture sensor
 #include <MQ2.h> 
 #include <MQ9.h>
+#include <MOD_PM2dot5.h>
 
 /*************************************************************
  ********************* End of inclusion **********************
@@ -230,25 +231,25 @@ const unsigned char happy2Frames[20][16] =
 /* ID    |  Sensor
  * :----:| :-------:
  *  0    |   MQ2
- *  1    |   MQ9
- *  2    |   DHT22
- *  3    |   Flame
- *  4    |   PM2.5
+ *  1    |   DHT22
+ *  2    |   Flame
+ *  3    |   PM2.5
  */
-unsigned int SensorID[5] = {0,1,2,3,4}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
-bool SensorActiveStatus[5] = {true,false,true,true,true};
+unsigned int SensorID[5] = {0,1,2,3}; // 0: MQ2 ; 1: MQ9; 2: DHT22; 3: Flame; 4: PM2.5
+bool SensorActiveStatus[5] = {true,true,true,true};
 unsigned int SensorTotalNums = sizeof(SensorID)/2;
 
 DHT22 andbotDHT22(DHT22_PIN);
 MQ2 andbotMQ2(MQ2_PIN);
 MQ9 andbotMQ9(MQ9_PIN_AI);
+MOD_PM2dot5 andbotMOD_PM2dot5(Dust_PIN_AI,Dust_PIN_DO);
 
 long publisher_timer ;
 Metro publishPeriod = Metro(2200); // sensor
 Metro LEDMatrixPeriod = Metro(1); // LED Matrix 
 
 std_msgs::UInt8MultiArray SensorActiveList_msgs = {}; // List of sensor configured on andbot
-sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperture digital input
+sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperature digital input
 sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
@@ -265,10 +266,6 @@ std_msgs::Float32 Dust_msgs_VoMeasured; // Sharp Optical Dust sensor analog inpu
 /* temporary varibles for Dust sensing*/
 float voMeasured = 0;
 float calcVoltage = 0;
-/* sampling timing of output pulse in Dust sensor (from Datasheet)*/
-int samplingTime = 280; // LED Pulse Width = samplingTime + deltaTime = 320us
-int deltaTime = 40;
-int sleepTime = 9680; // period (per pulse) = 10ms, i.e, sleepingTime = 10ms - 320us = 9680 us
 
 Metro warmup = Metro(2000) ; //(msec)
 bool SensorReadyFlag = false;
@@ -311,7 +308,7 @@ void setup() {
   //initialize mega 2560 for sensor input
   pinMode(PIR_PIN, INPUT); //setup pin
   //pinMode(MQ9_PIN_DI, INPUT);
-  pinMode(Dust_PIN_DO, OUTPUT);
+  //pinMode(Dust_PIN_DO, OUTPUT);
 
   /* ROS Node configurations */
   metal_head.initNode();
@@ -351,6 +348,7 @@ void setup() {
   /* sensor calibration */
   andbotMQ2.MQCalibration();
   andbotMQ9.MQCalibration();
+  andbotMOD_PM2dot5.MOD_PM2dot5Calibration();
 
   /* LED */
   commandRcv = -1;
@@ -359,6 +357,9 @@ void setup() {
   M.set_cur(0,0);
   M.clear();  
   //M.display(hook);
+  
+  //Warming up ...
+  Serial.println("Please wait for warmup ...");
 }
 
 void loop() {
@@ -375,9 +376,8 @@ void loop() {
     if (warmup.check() == false)
     {
       SensorReadyFlag = false;
-      Serial.println("Please wait ...");
-        }
-        else
+    }
+    else
     {
       SensorReadyFlag = true;
       Serial.println("warmup finish");
@@ -405,9 +405,6 @@ void loop() {
       case DHT_BUS_HUNG:
         Serial.println("BUS Hung");
         break;
-      case DHT_ERROR_NOT_PRESENT:
-        Serial.println("Nothing");
-        break;
       case DHT_ERROR_ACK_TOO_LONG:
         Serial.println("ACK time out ");
         break;
@@ -420,7 +417,9 @@ void loop() {
       case DHT_ERROR_TOOQUICK:
         Serial.println("Polled to quick ");
         break;
-      
+      case DHT_ERROR_NOT_PRESENT:
+        Serial.println("Nothing");
+        break;
     }
 
     /* motion detection */
@@ -440,7 +439,7 @@ void loop() {
     Flame_msgs.data = analogRead(Flame_PIN);
     pub_Flame.publish(&Flame_msgs);
 
-    /*Smoke detection MQ2 */
+    /*Smoke detection MQ2 */  
     MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
     MQ2_msgs_CO.data = andbotMQ2.readCO();
     MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
@@ -460,27 +459,29 @@ void loop() {
     pub_MQ9CH4.publish(&MQ9_msgs_CH4);
     //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
 
-    /* Dust detection */
-    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
-    delayMicroseconds(samplingTime);
+   /* Dust detection */
+//    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
+//    delayMicroseconds(samplingTime);
+//
+//    voMeasured = analogRead(Dust_PIN_AI);
+//
+//    delayMicroseconds(deltaTime);
+//    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
+//    delayMicroseconds(sleepTime);
 
-    voMeasured = analogRead(Dust_PIN_AI);
+//    calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
 
-    delayMicroseconds(deltaTime);
-    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
-    delayMicroseconds(sleepTime);
-
-    calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
-    Dust_msgs_VoMeasured.data = calcVoltage;
+    Dust_msgs_VoMeasured.data = andbotMOD_PM2dot5.MOD_PM2dot5Read();
+    Serial.print("Vo: ");
+    Serial.println(Dust_msgs_VoMeasured.data);
     pub_Dust_V.publish(&Dust_msgs_VoMeasured);
 
     //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
-    Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
-    pub_Dust.publish(&Dust_msgs);
-
-    /* timer */
-    //publisher_timer = millis() + publishPeriod;
-  }
+    //Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
+    //Dust_msgs.data = 0.1724 * (calcVoltage - 0.6) * 1000.0; // this equation is appoximately calculated by using typical value shown in its datasheet
+    Dust_msgs.data = andbotMOD_PM2dot5.MOD_PM2dot5GetConcentration(DHT22_Humidity_msgs.relative_humidity);
+    pub_Dust.publish(&Dust_msgs); 
+     }
   else;
   //metal_head.spinOnce();
 
