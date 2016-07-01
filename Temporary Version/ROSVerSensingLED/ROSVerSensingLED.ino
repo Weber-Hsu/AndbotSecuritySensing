@@ -235,8 +235,6 @@ void loop() {
     pub_MQ9CH4.publish(&MQ9_msgs_CH4);
     //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
 
-  }
-  else;
    /* Dust detection */
 //    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
 //    delayMicroseconds(samplingTime);
@@ -259,6 +257,8 @@ void loop() {
     //Dust_msgs.data = 0.1724 * (calcVoltage - 0.6) * 1000.0; // this equation is appoximately calculated by using typical value shown in its datasheet
     Dust_msgs.data = andbotMOD_PM2dot5.MOD_PM2dot5GetConcentration(DHT22_Humidity_msgs.relative_humidity);
     pub_Dust.publish(&Dust_msgs);
+  }
+  else;
   Security.spinOnce();
 
 }

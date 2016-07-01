@@ -5,6 +5,7 @@
 
 #include <std_msgs/Int16.h>
 #include <std_msgs/Float32.h>
+#include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
 #include <sensor_msgs/Temperature.h>
 #include <sensor_msgs/RelativeHumidity.h>
@@ -24,6 +25,7 @@
 #include <MOD_PM2dot5.h>
 
 #include <TimerOne.h>
+#include <TimerThree.h>
 
 /*************************************************************
  ********************* End of inclusion **********************
@@ -251,8 +253,8 @@ Metro publishPeriod = Metro(2200); // sensor
 Metro LEDMatrixPeriod = Metro(1); // LED Matrix 
 
 std_msgs::UInt8MultiArray SensorActiveList_msgs = {}; // List of sensor configured on andbot
-sensor_msgs::Temperature DHT22_Temperature_msgs; // DHT22 -temperature digital input
-sensor_msgs::RelativeHumidity DHT22_Humidity_msgs; // DHT22 -Humidity digital input
+std_msgs::Float64 DHT22_Temperature_msgs; // DHT22 -temperature digital input
+std_msgs::Float64 DHT22_Humidity_msgs; // DHT22 -Humidity digital input
 std_msgs::Bool PIR_msgs; //PIR (motion sensor) digital input
 std_msgs::Float32 Flame_msgs; // Flame sensor V2 analog input
 std_msgs::Float32 MQ2_msgs_LPG; // MQ2 (smoke sensor) analog input
@@ -282,12 +284,12 @@ ros::Publisher pub_DHT22Temp("/CurTemperature", &DHT22_Temperature_msgs);
 ros::Publisher pub_DHT22Humid("/CurHumidity", &DHT22_Humidity_msgs);
 ros::Publisher pub_PIRstate("/MotionDetection", &PIR_msgs);
 ros::Publisher pub_Flame("/FlameDetection", &Flame_msgs);
-ros::Publisher pub_MQ2LPG("/MQ2LPG", & MQ2_msgs_LPG);
+//ros::Publisher pub_MQ2LPG("/MQ2LPG", & MQ2_msgs_LPG);
 ros::Publisher pub_MQ2CO("/MQ2CO", & MQ2_msgs_CO);
-ros::Publisher pub_MQ2SMOKE("/MQ2SMOKE", & MQ2_msgs_SMOKE);
-ros::Publisher pub_MQ9LPG("/MQ9LPG", & MQ9_msgs_LPG);
-ros::Publisher pub_MQ9CO("/MQ9CO", & MQ9_msgs_CO);
-ros::Publisher pub_MQ9CH4("/MQ9CH4", & MQ9_msgs_CH4);
+//ros::Publisher pub_MQ2SMOKE("/MQ2SMOKE", & MQ2_msgs_SMOKE);
+//ros::Publisher pub_MQ9LPG("/MQ9LPG", & MQ9_msgs_LPG);
+//ros::Publisher pub_MQ9CO("/MQ9CO", & MQ9_msgs_CO);
+//ros::Publisher pub_MQ9CH4("/MQ9CH4", & MQ9_msgs_CH4);
 ros::Publisher pub_Dust("/DustDetection", & Dust_msgs);
 ros::Publisher pub_Dust_V("/DustDetectionV", & Dust_msgs_VoMeasured);
 
@@ -318,17 +320,17 @@ void setup() {
   metal_head.advertise(pub_DHT22Humid);
   metal_head.advertise(pub_PIRstate);
   metal_head.advertise(pub_Flame);
-  metal_head.advertise(pub_MQ2LPG);
+//  metal_head.advertise(pub_MQ2LPG);
   metal_head.advertise(pub_MQ2CO);
-  metal_head.advertise(pub_MQ2SMOKE);
-  metal_head.advertise(pub_MQ9LPG);
-  metal_head.advertise(pub_MQ9CO);
-  metal_head.advertise(pub_MQ9CH4);
+//  metal_head.advertise(pub_MQ2SMOKE);
+//  metal_head.advertise(pub_MQ9LPG);
+//  metal_head.advertise(pub_MQ9CO);
+//  metal_head.advertise(pub_MQ9CH4);
   //metal_head.advertise(pub_MQ9Smoke_DI);
   metal_head.advertise(pub_Dust);
   metal_head.advertise(pub_Dust_V);
   
-  Serial.begin(115200);
+  Serial.begin(1000000);
   
   // calculation for Numbers of Active Sensor
   SensorActiveList_msgs.data = (uint8_t*)malloc(sizeof(uint8_t)* SensorTotalNums );
@@ -340,7 +342,6 @@ void setup() {
   	if (SensorActiveStatus[i] == true)
   	{
   		SensorActiveList_msgs.data[SensorActiveNums] = SensorID[i];
-  		Serial.print(SensorActiveList_msgs.data[SensorActiveNums]);
   		SensorActiveNums += 1;
   	}
   	else;
@@ -360,39 +361,31 @@ void setup() {
   M.clear();  
   //M.display(hook);
   
-  Timer1.initialize(2200000);// set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-  Timer1.attachInterrupt( timerIsr ); // attach the service routine here
+  Timer1.initialize(3000000);// set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
+  Timer1.attachInterrupt( SecurityIsr ); // attach the service routine here
+
+//  Timer3.initialize(25000);// set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
+//  Timer3.attachInterrupt( LEDIsr ); // attach the service routine here
 
   //Warming up ...
   Serial.println("Please wait for warmup ...");
+  while(warmup.check() == false);
+  SensorReadyFlag = true;
+  Serial.println("warmup finish");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-	pub_SensorList.publish(&SensorActiveList_msgs);
-  //warmup sequence
-  if (SensorReadyFlag == false)
-  {
-    if (warmup.check() == false)
-    {
-      SensorReadyFlag = false;
-    }
-    else
-    {
-      SensorReadyFlag = true;
-      Serial.println("warmup finish");
-    }
-  }
-  else;
+
 
   //metal_head.spinOnce();
+	if (SensorReadyFlag == true)
+	{
+		M.display(hook);
+	}
+	else;
 
-  if (SensorReadyFlag == true)
-  {
-	 M.display(hook);
-  }
-  else;
 }
 void hook(void)
 {
@@ -487,10 +480,11 @@ void hook(void)
   metal_head.spinOnce();
 }
 
-void timerIsr(void){
+void SecurityIsr(void){
+
 
 	// publish SensorActiveList repeatedly
-
+	pub_SensorList.publish(&SensorActiveList_msgs);
 
 	/* DHT22 reading... */
 	  DHT22_ERROR_t errorCode;
@@ -501,8 +495,8 @@ void timerIsr(void){
 	    switch (errorCode)
 	    {
 	      case DHT_ERROR_NONE:
-	        DHT22_Temperature_msgs.temperature = (double)andbotDHT22.getTemperatureC();
-	        DHT22_Humidity_msgs.relative_humidity = (double)andbotDHT22.getHumidity();
+	        DHT22_Temperature_msgs.data = (double)andbotDHT22.getTemperatureC();
+	        DHT22_Humidity_msgs.data = (double)andbotDHT22.getHumidity();
 	        pub_DHT22Temp.publish(&DHT22_Temperature_msgs);
 	        pub_DHT22Humid.publish(&DHT22_Humidity_msgs);
 	        break;
@@ -547,47 +541,33 @@ void timerIsr(void){
 	    pub_Flame.publish(&Flame_msgs);
 //
 //	    /*Smoke detection MQ2 */
-	    MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
+//	    MQ2_msgs_LPG.data = andbotMQ2.readLPG();// follow the recommendation regarding LPS on datasheet
 	    MQ2_msgs_CO.data = andbotMQ2.readCO();
-	    MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
-	    pub_MQ2LPG.publish(&MQ2_msgs_LPG);
+//	    MQ2_msgs_SMOKE.data = andbotMQ2.readSMOKE();
+//	    pub_MQ2LPG.publish(&MQ2_msgs_LPG);
 	    pub_MQ2CO.publish(&MQ2_msgs_CO);
-	    pub_MQ2SMOKE.publish(&MQ2_msgs_SMOKE);
+//	    pub_MQ2SMOKE.publish(&MQ2_msgs_SMOKE);
 //
 //	    /* Smoke detection MQ9 */
-	    MQ9_msgs_LPG.data = andbotMQ9.readLPG();
-	    MQ9_msgs_CO.data = andbotMQ9.readCO();
-	    MQ9_msgs_CH4.data = andbotMQ9.readCH4();
+//	    MQ9_msgs_LPG.data = andbotMQ9.readLPG();
+//	    MQ9_msgs_CO.data = andbotMQ9.readCO();
+//	    MQ9_msgs_CH4.data = andbotMQ9.readCH4();
 //	    Serial.print("CH4: ");
 //	    Serial.println(MQ9_msgs_CH4.data);
 	    //MQ9_msgs_DI.data = digitalRead(MQ9_PIN_DI);
-	    pub_MQ9LPG.publish(&MQ9_msgs_LPG);
-	    pub_MQ9CO.publish(&MQ9_msgs_CO);
-	    pub_MQ9CH4.publish(&MQ9_msgs_CH4);
+//	    pub_MQ9LPG.publish(&MQ9_msgs_LPG);
+//	    pub_MQ9CO.publish(&MQ9_msgs_CO);
+//	    pub_MQ9CH4.publish(&MQ9_msgs_CH4);
 	    //pub_MQ9Smoke_DI.publish(&MQ9_msgs_DI);
+
+	    /* Dust detection */
+//		Dust_msgs_VoMeasured.data = andbotMOD_PM2dot5.MOD_PM2dot5Read();
+//	  //	    Serial.print("Vo: ");
+//	  //	    Serial.println(Dust_msgs_VoMeasured.data);
+//		pub_Dust_V.publish(&Dust_msgs_VoMeasured);
 //
-	   /* Dust detection */
-	//    digitalWrite(Dust_PIN_DO, LOW); // power on the LED
-	//    delayMicroseconds(samplingTime);
-	//
-	//    voMeasured = analogRead(Dust_PIN_AI);
-	//
-	//    delayMicroseconds(deltaTime);
-	//    digitalWrite(Dust_PIN_DO, HIGH); // turn the LED off
-	//    delayMicroseconds(sleepTime);
-
-	//    calcVoltage = voMeasured * (5.0 / 1024.0); //restore volatage value
-
-	    Dust_msgs_VoMeasured.data = andbotMOD_PM2dot5.MOD_PM2dot5Read();
-	    Serial.print("Vo: ");
-	    Serial.println(Dust_msgs_VoMeasured.data);
-	    pub_Dust_V.publish(&Dust_msgs_VoMeasured);
-
-	    //Dust_msgs.data = 0.17 * calcVoltage - 0.1; //linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/ ,Chris Nafis (c) 2012
-	    //Dust_msgs.data = 0.2 * calcVoltage - 0.18; // this equation is appoximately calculated by using typical value shown in its datasheet
-	    //Dust_msgs.data = 0.1724 * (calcVoltage - 0.6) * 1000.0; // this equation is appoximately calculated by using typical value shown in its datasheet
-	    Dust_msgs.data = andbotMOD_PM2dot5.MOD_PM2dot5GetConcentration(DHT22_Humidity_msgs.relative_humidity);
-	    pub_Dust.publish(&Dust_msgs);
+//		Dust_msgs.data = andbotMOD_PM2dot5.MOD_PM2dot5GetConcentration(DHT22_Humidity_msgs.data);
+//		pub_Dust.publish(&Dust_msgs);
 	  }
 	  else;
 }
