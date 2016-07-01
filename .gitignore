@@ -1,1 +1,6 @@
 .pioenvs
+/.README.md.html
+/.travis.yml
+/.cproject
+/.project
+.settings
