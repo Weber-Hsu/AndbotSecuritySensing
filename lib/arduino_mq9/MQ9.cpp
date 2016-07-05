@@ -47,7 +47,7 @@ float MQ9::MQRead()
 
 	for (i=0;i<READ_SAMPLE;i++) {
 		rs += MQResistanceCalculation(analogRead(mq_pin));
-		delay(READ_SAMPLE_INTERVAL);
+		//delay(READ_SAMPLE_INTERVAL);
 	}
 
 	rs = rs / READ_SAMPLE;
